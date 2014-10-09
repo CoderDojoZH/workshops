@@ -3,13 +3,14 @@
 How the character can move in different directions.  
 1. Key is pressed and character moves several steps. Sprite moves only if key is pressed/held
 2. Key is pressed and character starts moving in a given direction. Sprite moves after releasing a key.
+
 ## Turns left/right
 
 ## Jumping
 1. Jump upwards
 2. Jump diagonally
 
-## Hit a wall
+## Hit a wall - Bartosz takes it over
 1. When wall is hit, stop the character
 2. When wall is hit, bounce the character
 
@@ -38,3 +39,9 @@ This may be needed for several players
 
 ## Display something on start of the game
 Eg. 3 2 1 Start
+
+## Scrolling background
+I am not sure if it is possible and would consider it a secondary target.
+
+## Scrolling sprites
+This can be useful for "go to right" games.
