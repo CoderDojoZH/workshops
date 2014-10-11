@@ -52,17 +52,32 @@ Set the speed and direction with "on keys" events:
 
 [a.l.e]
 
-Example:
-- [pong](http://scratch.mit.edu/projects/10128515/#editor)
-  - paddle: just moves horizontally to the mouse (setx)
-  - ball: two on start scripts
-    - go to the start position, point to 45°, then bounce on wall and move 10 steps forever
-    - forever do: if touching paddle, turn 160°-200° and move 10 steps
-  - bottom: a background color or a sprite?
-  - idea: give a pong with paddle and ball with the ball bouncing to the wall but not to the paddle
+### Bounce when hitting an object
 
-1. When object is hit, bounce
-2. When object is hit, do some interaction
+
+### Pong
+
+Based on [pong](http://scratch.mit.edu/projects/10128515/#editor)
+
+![](pong_overview.png)
+
+The paddle: just moves horizontally to the mouse (setx)
+
+![](pong_paddle_move.png)
+
+The ball:
+- Two "on start" scripts
+  - go to the start position, point to 45°, then bounce on wall and move 10 steps forever  
+    ![](pong_ball_move.png)
+  - forever do: if touching paddle, turn 160°-200° and move 10 steps 
+    ![](pong_ball_bounce.png)
+  - Idea for a starting point: give a pong with paddle and ball with the ball bouncing to the wall but not to the paddle
+
+### Interact with an object when hitting it
+
+another example: bricks game (with changing color)
+
+When object is hit, do some interaction
   a. change color
   b. send message
   c. move
