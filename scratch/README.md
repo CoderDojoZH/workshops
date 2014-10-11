@@ -8,8 +8,6 @@ Key is pressed and character moves several steps. Sprite moves only if key is pr
 
 ## Move/Steering
 
-[a.l.e]
-
 How the character can move in different directions.  
 
 
@@ -41,6 +39,9 @@ Set the speed and direction with "on keys" events:
 ## Turns left/right
 
 ## Jumping
+
+[a.l.e]
+
 1. Jump upwards
 2. Jump diagonally
 
@@ -49,8 +50,6 @@ Set the speed and direction with "on keys" events:
 2. When wall is hit, bounce the character
 
 ## Hit an object
-
-[a.l.e]
 
 ### Bounce when hitting an object
 
