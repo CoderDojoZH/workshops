@@ -1,12 +1,42 @@
 # Blocks of code to create
 
+### Each keypress is a move
+
+Key is pressed and character moves several steps. Sprite moves only if key is pressed/held
+
+- moving on a grid
+
 ## Move/Steering
 
 [a.l.e]
 
 How the character can move in different directions.  
-1. Key is pressed and character moves several steps. Sprite moves only if key is pressed/held
-2. Key is pressed and character starts moving in a given direction. Sprite moves after releasing a key.
+
+
+### Keypresses set the speed and direction
+
+Key is pressed and character starts moving in a given direction. Sprite moves after releasing a key.
+
+### Example: Racing Car
+
+![](racing_car-result.png)
+
+The "on start" loop:
+
+- Initialize the position, the direction and the speed
+- Forever:
+  - Move speed steps
+  - Stop if it hits a wall
+
+![](racing_car-movement.png)
+
+Set the speed and direction with "on keys" events:
+
+- The up and down keys increase / decrease the speed
+- The left and righ arrow let the car turn by 10°
+
+![](racing_car-arrows.png)
+
 
 ## Turns left/right
 
@@ -21,6 +51,15 @@ How the character can move in different directions.
 ## Hit an object
 
 [a.l.e]
+
+Example:
+- [pong](http://scratch.mit.edu/projects/10128515/#editor)
+  - paddle: just moves horizontally to the mouse (setx)
+  - ball: two on start scripts
+    - go to the start position, point to 45°, then bounce on wall and move 10 steps forever
+    - forever do: if touching paddle, turn 160°-200° and move 10 steps
+  - bottom: a background color or a sprite?
+  - idea: give a pong with paddle and ball with the ball bouncing to the wall but not to the paddle
 
 1. When object is hit, bounce
 2. When object is hit, do some interaction
