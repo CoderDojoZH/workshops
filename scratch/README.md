@@ -1,5 +1,9 @@
 # Blocks of code to create
+
 ## Move/Steering
+
+[a.l.e]
+
 How the character can move in different directions.  
 1. Key is pressed and character moves several steps. Sprite moves only if key is pressed/held
 2. Key is pressed and character starts moving in a given direction. Sprite moves after releasing a key.
@@ -15,6 +19,9 @@ How the character can move in different directions.
 2. When wall is hit, bounce the character
 
 ## Hit an object
+
+[a.l.e]
+
 1. When object is hit, bounce
 2. When object is hit, do some interaction
   a. change color
