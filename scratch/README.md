@@ -106,4 +106,7 @@ Eg. 3 2 1 Start
 I am not sure if it is possible and would consider it a secondary target.
 
 ## Scrolling sprites
+
 This can be useful for "go to right" games.
+
+- https://www.youtube.com/watch?v=4YoGkwV7D9c a 15 min tutorial on jumping
