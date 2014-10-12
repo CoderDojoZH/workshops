@@ -42,6 +42,8 @@ Set the speed and direction with "on keys" events:
 
 [a.l.e]
 
+- https://www.youtube.com/watch?v=4YoGkwV7D9c a good 15 min tutorial on jumping
+
 1. Jump upwards
 2. Jump diagonally
 
