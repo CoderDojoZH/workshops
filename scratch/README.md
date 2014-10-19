@@ -1,3 +1,13 @@
+# Introducing Scratch
+
+- A good introduction to Scratch-like programming  
+  https://blockly-demo.appspot.com/static/apps/maze/index.html and  
+  https://blockly-games.appspot.com/bird  
+  and generally  
+  https://blockly-demo.appspot.com  
+  and  
+  https://blockly-games.appspot.com
+
 # Blocks of code to create
 
 ### Each keypress is a move
