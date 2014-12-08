@@ -7,6 +7,7 @@
   https://blockly-demo.appspot.com  
   and  
   https://blockly-games.appspot.com
+- a self-learning tutorial by <http://kinderlabor.ch>: http://scratch.mit.edu/projects/23844258/ : learn in 5 minutes how to create a racing car game.
 
 # Blocks of code to create
 
