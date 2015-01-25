@@ -1,0 +1,2 @@
+- Snap! is a visual, drag-and-drop programming language. It is an extended reimplementation of Scratch that allows you to Build Your Own Blocks. It also features first class lists, first class procedures, and continuations. These added capabilities make it suitable for a serious introduction to computer science for high school or college students. It runs in the browser using Javascript.
+  http://snap.berkeley.edu/
