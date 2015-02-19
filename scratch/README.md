@@ -10,6 +10,13 @@
 - a self-learning tutorial by <http://kinderlabor.ch>: http://scratch.mit.edu/projects/23844258/ : learn in 5 minutes how to create a racing car game.
 - an italian book for learning scratch in school: <http://deagostiniscuola.deascuola.it/primaria?layout=book&ref=41&book=11847>
 - in bearbeitung: <http://wiki.scratch-dach.info/wiki/Scratch-Wiki:Scratch_Buch>
+- <http://www.bluelion.ch/de/startups/kinderlabor/>
+- <http://ilearnit.ch/de/scratch.html>
+- <http://scratch.mit.edu/projects/25176511/>
+- <http://digitale-schule-bayern.de/dsdaten/285/51.pdf>
+- <http://www.swisseduc.ch/informatik/programmiersprachen/scratch_werkstatt/>
+- <http://learnscratch.org/>
+- <http://www.tibs.at/content/scratch-grundz%C3%BCge-des-programmierens-spielerisch-erlernen>
 
 # Blocks of code to create
 
