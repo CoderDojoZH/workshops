@@ -15,7 +15,7 @@ This workshop can be organised as a contest among small group of programmers.
 - Choose a sprite and scale it down to the size of the circle.
 - Create your program:
   - which should start when pressing the green flag,
-  - allows any predefined start position,
+  - allows any start position,
   - does not need (nor allow) any further mouse or keyboard interaction.
 
 ### Rules
@@ -40,4 +40,6 @@ Of course:
   ![base background](base.png)  
   [base.svg](base.svg)  
 - A [sample simple implementation](simple.sb)
-- A labyrinth
+- A labyrinth  
+  ![labyrinth 01 background](labyrinth_01.png)  
+  [base.svg](labyrinth_01.svg)  
