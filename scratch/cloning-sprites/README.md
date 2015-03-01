@@ -14,7 +14,7 @@ For creating a clone you simple use the `Create clone` in the `control` Section
 
 We are using the `When I start as a clone` control, to move the created clone and to let it say a message when it has been created.
 
-## Identifying clones
+## Identifying the clones
 
 If you're creating muliple clones, you want to be able to know which clone it is. We achieve this by using two variables:
 
