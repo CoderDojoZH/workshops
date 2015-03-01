@@ -2,7 +2,7 @@
 
 This project documents step by step how to create a snake that wiggles following the mouse cursor.
 
-It is inspired by the [floating orca](http://scratch.mit.edu/projects/16795490/] by NickyNouse
+It is inspired by the [floating orca](http://scratch.mit.edu/projects/16795490/) by NickyNouse
 
 ## Making it doable
 
