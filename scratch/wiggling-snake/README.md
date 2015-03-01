@@ -58,6 +58,12 @@ The core parts of this script are:
 - On start, a clone is created.
 - When the clone is created, it starts gliding to the head's position, 50 points more on the right side.
 
+Your "snake" should look similar to this:
+
+![Head and one tail follow the cursor](one_tail_follow_cursor.gif)
+
+You will notice that the tail is always on the same side of the head, even if the head is turned on the other side. We will fix that, later.
+
 ## Cloning the costumes
 
 ## Getting the costumes to be skewed
