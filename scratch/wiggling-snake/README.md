@@ -34,23 +34,23 @@ We will have to tell the ninja that:
 
 If you want your sprite to follow the mouse pointer, it's as easy as using the `go to [mouse pointer]` in `motion`. Here we want have a more gently movement and have to create some very short code to get the sprite to glide to the current mouse position:
 
-![sprite_glides_to_mouse.png]
+![Sprite glides to the mouse](sprite_glides_to_mouse.png)
 
 One more detail: if our sprite -- like the snake head -- has a direction, it will have to turn it according to the direction of its movement:
 
-![head_turn_follow_cursor.png]
+![The head turns and glides to the cursor](head_turn_follow_cursor.png)
 
 ## The simplest snake: a head and a line
 
 First, we will have to draw the snakes head and the first element of its tail.
 
-![head_tail_costumes.png]
+![Head and first tail costumes](head_tail_costumes.png)
 
 Of course, ou can draw it left to right as i did, or loking down (or up). As you prefer.
 
 Now we have to get the tail to follow the head, with a small delay.
 
-![one_tail_follow_cursor.png]
+![Head and one tail follow the cursor](one_tail_follow_cursor.png)
 
 The core parts of this script are:
 
