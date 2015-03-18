@@ -17,6 +17,7 @@
 - <http://www.swisseduc.ch/informatik/programmiersprachen/scratch_werkstatt/>
 - <http://learnscratch.org/>
 - <http://www.tibs.at/content/scratch-grundz%C3%BCge-des-programmierens-spielerisch-erlernen>
+- [snap!](http://snap.berkeley.edu), a browser based (html+js) alternative to scratch.
 
 # Blocks of code to create
 
