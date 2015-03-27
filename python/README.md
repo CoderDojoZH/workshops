@@ -1,0 +1,3 @@
+- Youtube video: Python Programming by Derek Banas
+- "Python Programming for Teens" epub?
+- [Invent Your Own Computer Games with Python](http://inventwithpython.com/chapters/) and the related [blog](http://inventwithpython.com/blog/).
