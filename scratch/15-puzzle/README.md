@@ -24,3 +24,6 @@ How to get there:
 - create the code to check if it can move
 - create the 15 clones with costumes for the numbers
 - program the movements
+
+Todo:
+- create an SVG with the board, the main tile and the numbers as vectors (in a way that they can be placed at the right place in scratch)
