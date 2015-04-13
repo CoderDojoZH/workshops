@@ -2,3 +2,5 @@
 - Youtube video: [Python Programming](https://www.youtube.com/watch?v=N4mEzFDjqtA) by Derek Banas
 - "Python Programming for Teens" epub?
 - [Invent Your Own Computer Games with Python](http://inventwithpython.com/chapters/) and the related [blog](http://inventwithpython.com/blog/).
+- [Python 3.4 Programming Tutorials](https://www.youtube.com/playlist?list=PL6gx4Cwl9DGAcbMi1sH6oAMk4JHw91mC_) by thenewboston.
+- [Learn to Program in Python](http://www.codecademy.com/tracks/python) by CodeAcademy.
