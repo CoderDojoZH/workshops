@@ -1,3 +1,4 @@
-- Youtube video: Python Programming by Derek Banas
+- [Introduction to programming with Python](http://opentechschool.github.io/python-beginners/) by opentechschool.
+- Youtube video: [Python Programming](https://www.youtube.com/watch?v=N4mEzFDjqtA) by Derek Banas
 - "Python Programming for Teens" epub?
 - [Invent Your Own Computer Games with Python](http://inventwithpython.com/chapters/) and the related [blog](http://inventwithpython.com/blog/).
