@@ -3,6 +3,8 @@ from pygame.locals import *
 from system_event import SystemEvent
 from background import Background
 from enemy import Enemy
+from player import Player
+
 
 class TheApp(SystemEvent):
     def __init__(self):
@@ -12,6 +14,7 @@ class TheApp(SystemEvent):
         self._timer = 0
         self._font = None
         self._clock = pygame.time.Clock()
+        self._player = None
         self._objects = []
 
     def on_init(self):
@@ -23,6 +26,9 @@ class TheApp(SystemEvent):
         en = Enemy()
         en.init()
         self._objects.append(en)
+        self._player = Player()
+        self._player.init()
+        self._objects.append(self._player)
 
     def update(self, ft):
         self._background.update(ft)
@@ -65,3 +71,13 @@ class TheApp(SystemEvent):
             self._clock.tick()
 
         self.on_cleanup()
+
+    def on_key_down(self, event):
+        if event.key == K_DOWN:
+            self._player.setDirection(0)
+        if event.key == K_RIGHT:
+            self._player.setDirection(1)
+        if event.key == K_UP:
+            self._player.setDirection(2)
+        if event.key == K_LEFT:
+            self._player.setDirection(3)
