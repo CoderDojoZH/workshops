@@ -2,6 +2,7 @@ import pygame
 from pygame.locals import *
 from system_event import SystemEvent
 from background import Background
+from enemy import Enemy
 
 class TheApp(SystemEvent):
     def __init__(self):
@@ -11,19 +12,25 @@ class TheApp(SystemEvent):
         self._timer = 0
         self._font = None
         self._clock = pygame.time.Clock()
+        self._objects = []
 
     def on_init(self):
         pygame.init()
-        self._display_surf = pygame.display.set_mode((500, 500))
+        self._display_surf = pygame.display.set_mode((640, 480))
         self._font = pygame.font.Font(None, 24)
         self._background.init()
         self._running = True
+        en = Enemy()
+        en.init()
+        self._objects.append(en)
 
     def update(self, ft):
         self._background.update(ft)
 
     def render(self):
         self._background.render(self._display_surf)
+        for en in self._objects:
+            en.render(self._display_surf)
 
     def on_exit(self):
         self._running = False
