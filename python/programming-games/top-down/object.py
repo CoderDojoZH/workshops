@@ -2,7 +2,7 @@ class Object:
     def init(self):
         pass
 
-    def render(self, display):
+    def draw(self):
         pass
 
     def update(self, ft):

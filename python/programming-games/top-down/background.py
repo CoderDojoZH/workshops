@@ -1,5 +1,5 @@
-import pygame
-from pygame.locals import *
+import pyglet
+import cocos
 
 
 class Background:
@@ -8,17 +8,17 @@ class Background:
         self._tiles = None
 
     def init(self):
-        self._background = pygame.image.load("../img/terrain_4.png").convert()
+        self._background = pyglet.resource.image('terrain_4.png')
         self._tiles = [[0 for x in range(15)] for x in range(20)]
         for i in range(0, 20):
             for j in range(0, 15):
                 self._tiles[i][j] = 1
 
-    def render(self, display):
+    def draw(self):
         for i in range(0, 20):
             for j in range(0, 15):
                 x = self._tiles[i][j] * 32
-                display.blit(self._background, (i * 32, j * 32), (x, 0, x + 32, 32))
+                self._background.get_region(x, 320 - 32, 32, 32).blit(i * 32, j * 32, width = 32, height = 32)
 
     def update(self, ft):
         pass
