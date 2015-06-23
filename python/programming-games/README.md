@@ -5,3 +5,4 @@
 - https://pygame.org/wiki/tutorials
 - Pygame (Python Game Development) Playlist: <https://www.youtube.com/playlist?list=PL6gx4Cwl9DGAjkwJocj7vlc_mFU-4wXJq> by the newboston
 - [Ren'Py](http://www.renpy.org/) is a visual novel engine.
+- <https://github.com/lillian-lemmer/hypatia> a 2D game engine
