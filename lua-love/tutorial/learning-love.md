@@ -99,7 +99,7 @@ end
 
 The `fireboat.png` image, the horizontal (`x`) and the vertical (`y`) position are now defined inside of the `player` structure. The `player`'s fields are used for loading the image `love.load()` and then for drawing it in `love.draw()` at the position defined by `player.x` and `player.y`.
 
-A remark: the coordinates have their origin -- the `0, 0` point -- in the top left corner: `175, 500` is the distance in pixels from the top left corner of the bounding box around the image and the top left corner of the window.
+A remark: the coordinates have their origin -- the `(0, 0)` point -- in the top left corner: `(175, 500)` is the distance in pixels from the top left corner of the bounding box around the image and the top left corner of the window.
 
 ![Coordinates origin is the upper left corner](images/fireboat-coordinates.png)
 
