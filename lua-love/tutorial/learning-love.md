@@ -73,6 +73,34 @@ The source for this first example can be found on [GitHub](TODO).
 
 ## Stearing the Fireboat
 
+In our game, the Fireboat will move to the left and the right, avoiding the falling fire flames and throwing water at them.
+
+The first step is to define the boat position in an object that we can manipulate:
+
+~~~.lua
+debug = true
+
+player = { x = 175, y = 500, img = nil }
+
+--[[
+Called whe the program starts: allows us to load the assets
+--]]
+function love.load(arg)
+    player.img = love.graphics.newImage('assets/fireboat.png')
+end
+
+--[[
+Called for each frame
+--]]
+function love.draw()
+    love.graphics.draw(player.img, player.x, player.y) -- draw it towards at the position (x, y)
+end
+~~~
+
+The `fireboat.png` image, the horizontal (`x`) and the vertical (`y`) position are now defined inside of the `player` structure. The `player`'s fields are used for loading the image `love.load()` and then for drawing it in `love.draw()` at the position defined by `player.x` and `player.y`.
+
+A remark: the coordinates have their origin -- the `0, 0` point -- in the top left corner: `175, 500` is the distance in pixels from the top left corner of the bounding box around the image and the top left corner of the window.
+
 ![Coordinates origin is the upper left corner](images/fireboat-coordinates.png)
 
 
