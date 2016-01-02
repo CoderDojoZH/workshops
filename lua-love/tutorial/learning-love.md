@@ -1,8 +1,10 @@
 # Learning LÖVE
 
+We are now ready to put our hands into LÖVE and create our first game: a Fireboat throwing water at flames falling from the sky.
+
 ## Creating a window and drawing the boat
 
-For our first game -- a Fireboat throwing water at flames falling from the sky --  we create a `Fireboat/` directory somewhere on your computer (`Documents` is a good place for it) . This directory will contain all the files for our game.
+For our first game we create a `Fireboat/` directory somewhere on your computer (`Documents` is a good place for it) . This directory will contain all the files for our game.
 
 Start the [text editor](glossary#text-editor) and create the `conf.lua` file:
 
@@ -69,4 +71,7 @@ You can close the game by clicking on the close icons your system will have add 
 
 The source for this first example can be found on [GitHub](TODO).
 
-##
+## Stearing the Fireboat
+
+![Coordinates origin is the upper left corner](images/fireboat-coordinates.png)
+
