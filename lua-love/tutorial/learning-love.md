@@ -145,6 +145,6 @@ end
 
 We are adding a `love.update()` function that triggers the `quit` event when the `ESC` key is pressed and changes the boat's `x` position  when the arrow keys or the `a` / `d` keys are pressed.
 
-Each movement of the player is calculated by multiplying the `speed` field we are adding to the player's structure by the "delta-time" (`dt`) variable that LÖVE is giving us as parameter to the `love.update()` function.  
+Each movement of the player is calculated by multiplying the `speed` field -- it's the new field in the player's structure -- by the "delta-time" (`dt`) variable that LÖVE is giving us as parameter to the `love.update()` function.  
 `dt` is the time elapsed since the last time LÖVE has called `love.update()` the last time and is used to make the game run at the same pace on computers with different speeds.  
-If you want the boat to react faster or slower to the commands, you can modify the value of the `player.speed` field.
+If you want the boat to react faster or slower to the commands, you can modify the value of `player = { .... speed = 150 ...}`.
