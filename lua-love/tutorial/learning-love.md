@@ -103,4 +103,48 @@ A remark: the coordinates have their origin -- the `(0, 0)` point -- in the top 
 
 ![Coordinates origin is the upper left corner](images/fireboat-coordinates.png)
 
+We are now ready for binding the boat's movements with the keyboard:
 
+~~~.lua
+debug = true
+
+player = { x = 175, y = 500, speed = 150, img = nil }
+
+--[[
+Called whe the program starts: allows us to load the assets
+--]]
+function love.load(arg)
+    player.img = love.graphics.newImage('assets/fireboat.png')
+end
+
+--[[
+Called for each frame
+@param numeric dt time elapsed since the last call
+--]]
+function love.update(dt)
+    -- We need a way to get out of the game...
+    if love.keyboard.isDown('escape') then
+        love.event.push('quit')
+    end
+
+    -- Left arrow and 'a', to the left, right arrow and 'd' to the right...
+	if love.keyboard.isDown('left','a') then
+        player.x = player.x - (player.speed * dt)
+	elseif love.keyboard.isDown('right','d') then
+        player.x = player.x + (player.speed * dt)
+	end
+end
+
+--[[
+Called for each frame
+--]]
+function love.draw()
+    love.graphics.draw(player.img, player.x, player.y) -- draw it towards at the position (x, y)
+end
+~~~
+
+We are adding a `love.update()` function that triggers the `quit` event when the `ESC` key is pressed and changes the boat's `x` position  when the arrow keys or the `a` / `d` keys are pressed.
+
+Each movement of the player is calculated by multiplying the `speed` field we are adding to the player's structure by the "delta-time" (`dt`) variable that LÖVE is giving us as parameter to the `love.update()` function.  
+`dt` is the time elapsed since the last time LÖVE has called `love.update()` the last time and is used to make the game run at the same pace on computers with different speeds.  
+If you want the boat to react faster or slower to the commands, you can modify the value of the `player.speed` field.
