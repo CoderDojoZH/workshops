@@ -146,5 +146,50 @@ end
 We are adding a `love.update()` function that triggers the `quit` event when the `ESC` key is pressed and changes the boat's `x` position  when the arrow keys or the `a` / `d` keys are pressed.
 
 Each movement of the player is calculated by multiplying the `speed` field -- it's the new field in the player's structure -- by the "delta-time" (`dt`) variable that LÖVE is giving us as parameter to the `love.update()` function.  
-`dt` is the time elapsed since the last time LÖVE has called `love.update()` the last time and is used to make the game run at the same pace on computers with different speeds.  
+`dt` is the time elapsed since the last time LÖVE has called `love.update()` and is used to make the game run at the same pace on computers with different speeds.  
 If you want the boat to react faster or slower to the commands, you can modify the value of `player = { .... speed = 150 ...}`.
+
+After each modification you should run the game and test if the changes have the expected result. If you have done so, you will have noticed that the boat flies out of the window.  
+When a key has been pressed we should make sure that the boat cannot go over the border: the `math.max()` and `math.min()` make sure that boat's `x` value is never smaller than `0` nor bigger than the window's width (minus the width of the boat itself).
+
+~~~.lua
+debug = true
+
+player = { x = 175, y = 500, speed = 150, img = nil }
+
+--[[
+Called whe the program starts: allows us to load the assets
+--]]
+function love.load(arg)
+    player.img = love.graphics.newImage('assets/fireboat.png')
+end
+
+--[[
+Called for each frame
+@param numeric dt time elapsed since the last call
+--]]
+function love.update(dt)
+    -- We need a way to get out of the game...
+    if love.keyboard.isDown('escape') then
+        love.event.push('quit')
+    end
+
+    -- Left arrow and 'a', to the left, right arrow and 'd' to the right...
+	if love.keyboard.isDown('left','a') then
+        player.x = math.max(player.x - (player.speed * dt), 0)
+	elseif love.keyboard.isDown('right','d') then
+        player.x = math.min(player.x + (player.speed * dt), love.graphics.getWidth() - player.img:getWidth())
+	end
+end
+
+--[[
+Called for each frame
+--]]
+function love.draw()
+    love.graphics.draw(player.img, player.x, player.y) -- draw it towards at the position (x, y)
+end
+~~~
+
+## Exercises
+
+- Mirror the boat when turning left / right
