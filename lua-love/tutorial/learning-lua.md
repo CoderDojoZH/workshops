@@ -9,7 +9,7 @@ It's largely inspired by  [Learn Lua in 15 minutes](http://tylerneylon.com/a/lea
 
 In both cases you will want to come back to this section each time you don't understand the code snippets for the game. If you don't find the answer in this chapter, you might want to have a look at the [Lua Manual](http://www.lua.org/manual/) or you might need a more gentle and didactical introduction to Lua.
 
-If you want a more gently and didactical learning experience you might want to read [Programming in Lua](http://www.lua.org/pil/) before further reading this manual.
+If you want a more gently and didactical learning experience, you might want to read [Programming in Lua](http://www.lua.org/pil/) before further reading this manual.
 
 ## Running Lua programs
 
