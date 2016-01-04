@@ -1,4 +1,4 @@
-# Creating a game with LÖVE
+# Your first game with LÖVE
 
 We are now ready to put our hands into LÖVE and create our first game: a Fireboat throwing water at flames falling from the sky.
 
@@ -196,6 +196,8 @@ The source for this stage of the game can be found on [GitHub](TODO).
 
 Now that we are able to stear our boat, we can get to the next task: throw water drops.
 
+First you need an image for drop. You can draw your own or download the one we're using for our sample code: [drop.png](https://raw.githubusercontent.com/CoderDojoZH/workshops/master/lua-love/step-03/assets/drop.png).
+
 In `love.update()` we add the code to detect when the space bar is pressed (`love.keyboard.isDown(' ')`).  
 The `newDrop` is based in the `drop` structure we define at the beginning of the program and gets inserted in the `drops` list (also newly defined at the beginning of the program):
 
@@ -283,10 +285,40 @@ function love.draw()
 end
 ~~~
 
-This is the last time that we can 
+At thend of this tutorial, the full code for our game will count around 200 lines of code. We are currently at about 50 lines of code right now: but it's already getting too long for the full code being reproduced at each step.  
+From this point on, we will show the new code to be typed and describe where it should be inserted. Of course, we will continue providing links to the external repository where you can see to the full code at each stage, so that you can cross check your code, if you think you made an error.
+
+The full code for this stage is on [Github](https://github.com/CoderDojoZH/workshops/blob/master/lua-love/step-03/).
+
+## Limiting the water throughput
+
+Right now, when you keep on pressing the space bar a big column of water is thrown out. Our next task is to enfoce a small interval between two drops.
+
+We define the interval by extending the `drop` structure with the two fields `interval` and `intervalTimer`:
+
+~~~.lua
+drop = { speed = 250, img = nil, interval = 0.2, intervalTimer = 0 }
+~~~
+
+Each time we produce a drop, we set `drop.intervalTimer` to the value of `drop.interval` and let the `love.update()` function decrease the `drop.intervalTimer` by 1 multiplied by the `dt` parameter.  We also add a condition that only lets process the action bound to the space bar if the `drop.intervalTimer` is smaller than 0:
+
+~~~.lua
+-- Decrease the drop interval timer before the next drop
+drop.intervalTimer = drop.intervalTimer - (1 * dt)
+
+-- Create a bullet on space at the boat position
+if love.keyboard.isDown(' ', 'space') and drop.intervalTimer < 0 then
+    newDrop = { x = player.x + (player.img:getWidth()/2), y = player.y, speed = drop.speed, img = drop.img }
+    table.insert(drops, newDrop)
+    drop.intervalTimer = drop.interval
+end
+~~~
+
 
 
 ## Adding the falling flames
+
+
 
 ## Exercises
 

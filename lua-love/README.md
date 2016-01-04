@@ -12,7 +12,7 @@
   - What is Lua
   - What is Löve
 - [Learning Lua](tutorial/learning-lua.md)
-- [Creating a game with LÖVE](tutorial/learning-love.md)
+- [Your first game with LÖVE](tutorial/learning-love.md)
 - What to do next
   - Exercises
   - [Learning more Lua](tutorial/learning-love.md)
