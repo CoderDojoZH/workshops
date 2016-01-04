@@ -303,10 +303,10 @@ drop = { speed = 250, img = nil, interval = 0.2, intervalTimer = 0 }
 Each time we produce a drop, we set `drop.intervalTimer` to the value of `drop.interval` and let the `love.update()` function decrease the `drop.intervalTimer` by 1 multiplied by the `dt` parameter.  We also add a condition that only lets process the action bound to the space bar if the `drop.intervalTimer` is smaller than 0:
 
 ~~~.lua
--- Create a bullet on space at the boat position if intervalTimer is not being decreased
+-- Decrease the drop interval timer before the next drop
 drop.intervalTimer = drop.intervalTimer - (1 * dt)
 
--- Create a bullet on space at the boat position
+-- Create a bullet on space at the boat position if intervalTimer is not being decreased
 if love.keyboard.isDown(' ', 'space') and drop.intervalTimer < 0 then
     newDrop = { x = player.x + (player.img:getWidth()/2), y = player.y, speed = drop.speed, img = drop.img }
     table.insert(drops, newDrop)
