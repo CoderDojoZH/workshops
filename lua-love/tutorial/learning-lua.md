@@ -15,8 +15,8 @@ If you want a more gently and didactical learning experience you might want to r
 
 As explained in the Getting started chapters for [Linux](TODO), [Mac OS X](TODO), and [Windows](TODO), depending on your operating system and your personal preferences you can run your program by:
 
-- linux / termina
-- UI / Windows / OS X
+- Linux / terminal
+- Windows / OS X / UI
 
 You're invited to create a test Lua file and retype in there each snippet you'll find in this chapter and try it out to check how it works.
 
