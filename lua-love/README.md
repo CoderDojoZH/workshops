@@ -15,7 +15,7 @@
 - [Creating a game with LÖVE](tutorial/learning-love.md)
 - What to do next
   - Exercises
-  - [Learing more Lua](tutorial/learning-love.md)
+  - [Learning more Lua](tutorial/learning-love.md)
 - [Getting started on Linux](tutorial/getting-started-linux.md)
   - Installing Lua
   - Installing LÖVE
