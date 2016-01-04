@@ -4,6 +4,8 @@ This manuals will help you create your first game with Lua and LÖVE.
 
 Instead of providing you with a complete introduction to each of the technologies you will need for programming your game, we have decided to 
 
+# What is programming
+
 # What is a game
 
 # What is Lua

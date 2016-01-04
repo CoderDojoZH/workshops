@@ -1,8 +1,8 @@
-# Learning LÖVE
+# Creating a game with LÖVE
 
 We are now ready to put our hands into LÖVE and create our first game: a Fireboat throwing water at flames falling from the sky.
 
-## Creating a window and drawing the boat
+## Setup the game and draw the fireboat
 
 For our first game we create a `Fireboat/` directory somewhere on your computer (`Documents` is a good place for it) . This directory will contain all the files for our game.
 
@@ -16,7 +16,7 @@ function love.conf(t)
     t.window.width = 400
     t.window.width = 600
 
-    t.console = true -- For debuggingg on windows
+    t.console = true -- For debugging on windows
 end
 ~~~
 
@@ -149,8 +149,8 @@ Each movement of the player is calculated by multiplying the `speed` field -- it
 `dt` is the time elapsed since the last time LÖVE has called `love.update()` and is used to make the game run at the same pace on computers with different speeds.  
 If you want the boat to react faster or slower to the commands, you can modify the value of `player = { .... speed = 150 ...}`.
 
-After each modification you should run the game and test if the changes have the expected result. If you have done so, you will have noticed that the boat flies out of the window.  
-When a key has been pressed we should make sure that the boat cannot go over the border: the `math.max()` and `math.min()` make sure that boat's `x` value is never smaller than `0` nor bigger than the window's width (minus the width of the boat itself).
+After each modification of your code, you should run the game and test if the changes have the expected result. If you have done so, you will have noticed that the boat can "sail" out of the window.  
+When the key is pressed, we should make sure that the boat cannot go over the border: the `math.max()` and `math.min()` ensure that the boat's `x` value is never smaller than `0` nor bigger than the window's width. Since the position of the boat gets calculated by it's top left corner, for the right side check we have to add the width of the boat itself.
 
 ~~~.lua
 debug = true
@@ -189,6 +189,104 @@ function love.draw()
     love.graphics.draw(player.img, player.x, player.y) -- draw it towards at the position (x, y)
 end
 ~~~
+
+The source for this stage of the game can be found on [GitHub](TODO).
+
+## Throwing water drops
+
+Now that we are able to stear our boat, we can get to the next task: throw water drops.
+
+In `love.update()` we add the code to detect when the space bar is pressed (`love.keyboard.isDown(' ')`).  
+The `newDrop` is based in the `drop` structure we define at the beginning of the program and gets inserted in the `drops` list (also newly defined at the beginning of the program):
+
+~~~.lua
+-- Create a bullet on space at the boat position
+if love.keyboard.isDown(' ') then
+    newDrop = { x = player.x + (player.img:getWidth()/2), y = player.y, speed = drop.speed, img = drop.img }
+    table.insert(drops, newDrop)
+end
+~~~
+
+We also want the drop to move upwards until it reaches the top of the window: each time `love.update()` gets called, each drop moves up according to `drop.speed`:
+
+~~~.lua
+-- Scroll up the position of the drops
+for i, drop in ipairs(drops) do
+    drop.y = drop.y - (drop.speed * dt)
+
+    if drop.y < 0 then -- Remove bullets when they pass off the screen
+        table.remove(drops, i)
+    end
+end
+~~~
+
+Since the drops are moving up, we remove the speed from the current drop position.
+
+A remark: in the `for i, drop  in ipairs(drops)` loop we are defining a local `drop` variable: it's not a problem to use the same name as the global `drop` structure, but inside of the `for` loop we cannot access the global `drop` (for more information see the short section on ["Scope"](learning-lua#scope) in the ["Learning Lua"](learning-lua) chapter.
+
+~~~.lua
+debug = true
+
+player = { x = 175, y = 500, speed = 150, img = nil }
+drop = { speed = 250, img = nil }
+drops = {} -- List of bullets currently being drawn and updated
+
+--[[
+Called whe the program starts: allows us to load the assets
+--]]
+function love.load(arg)
+    player.img = love.graphics.newImage('assets/fireboat.png')
+    drop.img = love.graphics.newImage('assets/drop.png')
+end
+
+--[[
+Called for each frame
+@param numeric dt time elapsed since the last call
+--]]
+function love.update(dt)
+    -- We need a way to get out of the game...
+    if love.keyboard.isDown('escape') then
+        love.event.push('quit')
+    end
+
+	-- Scroll up the position of the drops
+	for i, drop in ipairs(drops) do
+		drop.y = drop.y - (drop.speed * dt)
+
+		if drop.y < 0 then -- Remove bullets when they pass off the screen
+			table.remove(drops, i)
+		end
+	end
+
+    -- Create a bullet on space at the boat position
+	if love.keyboard.isDown(' ') then
+		newDrop = { x = player.x + (player.img:getWidth()/2), y = player.y, speed = drop.speed, img = drop.img }
+		table.insert(drops, newDrop)
+	end
+
+    -- Left arrow and 'a', to the left, right arrow and 'd' to the right...
+	if love.keyboard.isDown('left','a') then
+        player.x = math.max(player.x - (player.speed * dt), 0)
+	elseif love.keyboard.isDown('right','d') then
+        player.x = math.min(player.x + (player.speed * dt), love.graphics.getWidth() - player.img:getWidth())
+	end
+end
+
+--[[
+Called for each frame
+--]]
+function love.draw()
+	for i, drop in ipairs(drops) do
+		love.graphics.draw(drop.img, drop.x, drop.y)
+	end
+    love.graphics.draw(player.img, player.x, player.y)
+end
+~~~
+
+This is the last time that we can 
+
+
+## Adding the falling flames
 
 ## Exercises
 

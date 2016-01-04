@@ -148,6 +148,29 @@ local g; g  = function (x) return math.sin(x) end
 -- Calls with one string param don't need parens:
 print 'hello'  -- Works fine.
 
+## Scope
+
+Lua has global and local variables.
+
+~~~.lua
+value = 1 -- define a global value with value 1
+
+function testScope()
+    value = 100 -- set the global value to 100
+    for value = 1, 5 do -- define a local value that is valid inside of the for loop
+        print(value) -- print the local value (1,2,3,4,5)
+    end
+    print(value) -- print the global value (100)
+    local value -- define a local value valid inside of the function
+    value = 10 -- set the local value to 10
+    print(value) -- print the local value (10)
+end
+
+print(value) -- print the global value (1)
+testScope()
+print(value) -- print the global value (100, modified by function)
+~~~
+
 ## Tables, classes and modules
 
 Lua is a very simple language and what you have learned should be enough for creating your first game. But there is more to discover than what you've seen in this short chapter: in the "Learning more Lua" chapter you can find a few further constructs that you will probably need if you want to create more complex games with Lua and LÖVE.
