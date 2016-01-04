@@ -18,7 +18,7 @@ As explained in the Getting started chapters for [Linux](TODO), [Mac OS X](TODO)
 - Linux / terminal
 - Windows / OS X / UI
 
-You're invited to create a test Lua file and retype in there each snippet you'll find in this chapter and try it out to check how it works.
+You're invited to create a test Lua file and retype in there each snippet you'll find in this chapter and try it out to check how it works by running the file.
 
 ## Comments
 
