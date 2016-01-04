@@ -37,3 +37,4 @@
 ## Ideas for further games
 
 - <http://www.xarg.org/projects/>
+- <https://github.com/karai17/Simple-Tiled-Implementation> for creating / viewing tiled landscapes
