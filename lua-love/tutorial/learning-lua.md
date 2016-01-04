@@ -4,12 +4,21 @@ This introduction to Lua is a fast and furious overview of the main parts of Lua
 
 It's largely inspired by  [Learn Lua in 15 minutes](http://tylerneylon.com/a/learn-lua/) and it covers two main readers:
 
-- You already know other programming languages and you want to see what Lua looks like.
-- You want to start as fast as possible with the game and want to learn the language by doing it.
+- You already know other programming languages and just want to have a peek at what Lua looks like.
+- You want to start as fast as possible to program the game and want to learn the language by doing it.
 
 In both cases you will want to come back to this section each time you don't understand the code snippets for the game. If you don't find the answer in this chapter, you might want to have a look at the [Lua Manual](http://www.lua.org/manual/) or you might need a more gentle and didactical introduction to Lua.
 
 If you want a more gently and didactical learning experience you might want to read [Programming in Lua](http://www.lua.org/pil/) before further reading this manual.
+
+## Running Lua programs
+
+As explained in the Getting started chapters for [Linux](TODO), [Mac OS X](TODO), and [Windows](TODO), depending on your operating system and your personal preferences you can run your program by:
+
+- linux / termina
+- UI / Windows / OS X
+
+You're invited to create a test Lua file and retype in there each snippet you'll find in this chapter and try it out to check how it works.
 
 ## Comments
 
