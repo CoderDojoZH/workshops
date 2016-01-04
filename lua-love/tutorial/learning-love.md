@@ -329,6 +329,8 @@ if love.keyboard.isDown(' ', 'space') and drop.intervalTimer < 0 then
 end
 ~~~
 
+Your game should now look similar to this:
+
 ![Fireboat with drops](images/fireboat-drops.png)
 
 The full code for this stage is on [Github](https://github.com/CoderDojoZH/workshops/blob/master/lua-love/step-04/).
