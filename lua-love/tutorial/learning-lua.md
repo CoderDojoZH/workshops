@@ -2,7 +2,7 @@
 
 This introduction to Lua is a fast and furious overview of the main parts of Lua that you will need for creating your first game with Lua and LÖVE.
 
-It's largely inspired by  [Learn Lua in 15 minutes](http://tylerneylon.com/a/learn-lua/) and it covers two main readers:
+It's largely inspired by  [Learn Lua in 15 minutes](http://tylerneylon.com/a/learn-lua/) and it mainly focused on two type of readers:
 
 - You already know other programming languages and just want to have a peek at what Lua looks like.
 - You want to start as fast as possible to program the game and want to learn the language by doing it.
