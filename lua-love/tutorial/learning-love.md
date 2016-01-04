@@ -224,6 +224,19 @@ end
 
 Since the drops are moving up, we remove the speed from the current drop position.
 
+The `ipars(drops)` function gives as each drop and the matching `i` position in the list. We use the `i` index to remove the drop from the list if it has passed off the screen.
+
+In the `love.draw()` function we loop again through all the `drops` and display each of them at its `drop.x` and `drop.y` coordinate.
+
+~~~.lua
+function love.draw()
+	for i, drop in ipairs(drops) do
+		love.graphics.draw(drop.img, drop.x, drop.y)
+	end
+    love.graphics.draw(player.img, player.x, player.y)
+end
+~~~
+
 A remark: in the `for i, drop  in ipairs(drops)` loop we are defining a local `drop` variable: it's not a problem to use the same name as the global `drop` structure, but inside of the `for` loop we cannot access the global `drop` (for more information see the short section on ["Scope"](learning-lua#scope) in the ["Learning Lua"](learning-lua) chapter.
 
 ~~~.lua
@@ -285,6 +298,8 @@ function love.draw()
 end
 ~~~
 
+
+
 At thend of this tutorial, the full code for our game will count around 200 lines of code. We are currently at about 50 lines of code right now: but it's already getting too long for the full code being reproduced at each step.  
 From this point on, we will show the new code to be typed and describe where it should be inserted. Of course, we will continue providing links to the external repository where you can see to the full code at each stage, so that you can cross check your code, if you think you made an error.
 
@@ -314,6 +329,9 @@ if love.keyboard.isDown(' ', 'space') and drop.intervalTimer < 0 then
 end
 ~~~
 
+![Fireboat with drops](images/fireboat-drops.png)
+
+The full code for this stage is on [Github](https://github.com/CoderDojoZH/workshops/blob/master/lua-love/step-04/).
 
 
 ## Adding the falling flames
