@@ -128,11 +128,11 @@ function love.update(dt)
     end
 
     -- Left arrow and 'a', to the left, right arrow and 'd' to the right...
-	if love.keyboard.isDown('left','a') then
+    if love.keyboard.isDown('left','a') then
         player.x = player.x - (player.speed * dt)
-	elseif love.keyboard.isDown('right','d') then
+    elseif love.keyboard.isDown('right','d') then
         player.x = player.x + (player.speed * dt)
-	end
+    end
 end
 
 --[[
@@ -175,11 +175,11 @@ function love.update(dt)
     end
 
     -- Left arrow and 'a', to the left, right arrow and 'd' to the right...
-	if love.keyboard.isDown('left','a') then
+    if love.keyboard.isDown('left','a') then
         player.x = math.max(player.x - (player.speed * dt), 0)
-	elseif love.keyboard.isDown('right','d') then
+    elseif love.keyboard.isDown('right','d') then
         player.x = math.min(player.x + (player.speed * dt), love.graphics.getWidth() - player.img:getWidth())
-	end
+    end
 end
 
 --[[
@@ -230,9 +230,9 @@ In the `love.draw()` function we loop again through all the `drops` and display 
 
 ~~~.lua
 function love.draw()
-	for i, drop in ipairs(drops) do
-		love.graphics.draw(drop.img, drop.x, drop.y)
-	end
+    for i, drop in ipairs(drops) do
+        love.graphics.draw(drop.img, drop.x, drop.y)
+    end
     love.graphics.draw(player.img, player.x, player.y)
 end
 ~~~
@@ -264,43 +264,43 @@ function love.update(dt)
         love.event.push('quit')
     end
 
-	-- Scroll up the position of the drops
-	for i, drop in ipairs(drops) do
-		drop.y = drop.y - (drop.speed * dt)
+    -- Scroll up the position of the drops
+    for i, drop in ipairs(drops) do
+        drop.y = drop.y - (drop.speed * dt)
 
-		if drop.y < 0 then -- Remove bullets when they pass off the screen
-			table.remove(drops, i)
-		end
-	end
+        if drop.y < 0 then -- Remove bullets when they pass off the screen
+            table.remove(drops, i)
+        end
+    end
 
     -- Create a bullet on space at the boat position
-	if love.keyboard.isDown(' ') then
-		newDrop = { x = player.x + (player.img:getWidth()/2), y = player.y, speed = drop.speed, img = drop.img }
-		table.insert(drops, newDrop)
-	end
+    if love.keyboard.isDown(' ') then
+        newDrop = { x = player.x + (player.img:getWidth()/2), y = player.y, speed = drop.speed, img = drop.img }
+        table.insert(drops, newDrop)
+    end
 
     -- Left arrow and 'a', to the left, right arrow and 'd' to the right...
-	if love.keyboard.isDown('left','a') then
+    if love.keyboard.isDown('left','a') then
         player.x = math.max(player.x - (player.speed * dt), 0)
-	elseif love.keyboard.isDown('right','d') then
+    elseif love.keyboard.isDown('right','d') then
         player.x = math.min(player.x + (player.speed * dt), love.graphics.getWidth() - player.img:getWidth())
-	end
+    end
 end
 
 --[[
 Called for each frame
 --]]
 function love.draw()
-	for i, drop in ipairs(drops) do
-		love.graphics.draw(drop.img, drop.x, drop.y)
-	end
+    for i, drop in ipairs(drops) do
+        love.graphics.draw(drop.img, drop.x, drop.y)
+    end
     love.graphics.draw(player.img, player.x, player.y)
 end
 ~~~
 
 
 
-At thend of this tutorial, the full code for our game will count around 200 lines of code. We are currently at about 50 lines of code right now: but it's already getting too long for the full code being reproduced at each step.  
+At thend of this tutorial, the full code for our game will count around 150 lines of code. We are currently at about 50 lines of code right now: but it's already getting too long for the full code being reproduced at each step.  
 From this point on, we will show the new code to be typed and describe where it should be inserted. Of course, we will continue providing links to the external repository where you can see to the full code at each stage, so that you can cross check your code, if you think you made an error.
 
 The full code for this stage is on [Github](https://github.com/CoderDojoZH/workshops/blob/master/lua-love/step-03/).
@@ -321,7 +321,7 @@ Each time we produce a drop, we set `drop.intervalTimer` to the value of `drop.i
 -- Decrease the drop interval timer before the next drop
 drop.intervalTimer = drop.intervalTimer - (1 * dt)
 
--- Create a bullet on space at the boat position if intervalTimer is not being decreased
+-- Create a drop on space at the boat position if intervalTimer got back to zero
 if love.keyboard.isDown(' ', 'space') and drop.intervalTimer < 0 then
     newDrop = { x = player.x + (player.img:getWidth()/2), y = player.y, speed = drop.speed, img = drop.img }
     table.insert(drops, newDrop)
@@ -338,7 +338,245 @@ The full code for this stage is on [Github](https://github.com/CoderDojoZH/works
 
 ## Adding the falling flames
 
+~~~.lua
+flame = { speed = 200, img = nil, interval = 0.4, intervalTimer = 0 }
+flames = {} -- List of flames currently being drawn and updated
+~~~
 
+~~~.lua
+function love.load(arg)
+    -- ...
+    flame.img = love.graphics.newImage('assets/flame.png')
+end
+~~~
+
+~~~.lua
+function love.update(dt)
+    -- ...
+
+    -- Decrease the drop interval timer before the next drop/flame
+    -- ...
+    flame.intervalTimer = flame.intervalTimer - (1 * dt)
+
+    -- Create a flame at the top with a random x position if intervalTimer got back to zero
+    if flame.intervalTimer < 0 then
+        randomX = math.random(10, love.graphics.getWidth() - 10)
+        newFlame = { x = randomX, y = -10, speed = flame.speed, img = flame.img }
+        table.insert(flames, newFlame)
+        flame.intervalTimer = flame.interval
+    end
+    -- ...
+end
+~~~
+
+Append just after the scrolling down of the drops, the scrolling up of the flames:
+
+~~~.lua
+-- Scroll down the position of the flames
+for i, flame in ipairs(flames) do
+    flame.y = flame.y + (flame.speed * dt)
+
+    if flame.y > love.graphics.getHeight() then -- Remove bullets when they pass off the screen
+        table.remove(flames, i)
+    end
+end
+~~~
+
+And draw each flame...
+
+~~~.lua
+function love.draw()
+    -- ...
+	for i, flame in ipairs(flames) do
+		love.graphics.draw(flame.img, flame.x, flame.y)
+	end
+    -- ...
+end
+~~~
+
+Your game should now look similar to this:
+
+![Fireboat with drops](images/fireboat-drops-flames.png)
+
+The full code for this stage is on [Github](https://github.com/CoderDojoZH/workshops/blob/master/lua-love/step-05/).
+
+## Extinguishing the fire
+
+The fire is falling down, the drops are flying up... It's time for something to happen: when a drop touches a flame, the fire extinguishes and the water evaporates. In "game" speach we have to do some "collision detection" and remove both the flame and the drop from their respective list.
+
+Right at the top of the file -- just after the definitions for the `player` and `drop` structures we add a "standard" function from the [LÖVE wiki](http://love2d.org/wiki): the `checkCollision()` function will return `true` if the rectange 1 is touching the object 2.
+
+~~~.lua
+--[[
+Collision detection taken function from http://love2d.org/wiki/BoundingBox.lua
+Returns true if two boxes overlap, false if they don't
+x1,y1 are the left-top coords of the first box, while w1,h1 are its width and height
+x2,y2,w2 & h2 are the same, but for the second box
+--]]
+function checkCollision(x1,y1,w1,h1, x2,y2,w2,h2)
+    return
+        x1 < x2+w2 and
+        x2 < x1+w1 and
+        y1 < y2+h2 and
+        y2 < y1+h1
+
+        x1      < x2 + w2 and
+        x1 + w1 > x2      and
+        y1      < y2 + h2 and
+        y1 + h1 > y2
+end
+~~~
+
+The first rectanlge is defined through its top left point (`x1, y1`), its width (`w1`) and height (`h1`). The second one by `x1,y1`, `w2` and `h2`.
+
+There is a collision if the rectangles 1 and 2 intersect: that is, 1's left side (`x1`) is left (`<`) of 2's right side (`x2 + w2`) and 1's left side (`x2`) is left (`<`) of 2's right side (`x1 + w1`). And the same applies to the 1 and 2's top and bottom sides.  
+As already mentioned, for the vertical check you should take into consideration that the coordinate origin is top left (and they grow down).
+
+This is called an <a href="glossary#algorithm"></a>algorithm, a list of specific instructions a computer should perform.
+
+![check collision](images/collision-detection.png)
+
+
+After having scrolled the flames and drops, let's check if they're colliding:
+
+~~~.lua
+--[[
+Collision detection
+Since there will be fewer flames on screen than bullets we'll loop them first
+--]]
+for i, flame in ipairs(flames) do
+    for j, drop in ipairs(drops) do
+        if CheckCollision(flame.x, flame.y, flame.img:getWidth(), flame.img:getHeight(), drop.x, drop.y, drop.img:getWidth(), drop.img:getHeight()) then
+            table.remove(drops, j)
+            table.remove(flames, i)
+        end
+    end
+end
+~~~
+
+## Getting hit by the fire
+
+We can use the same `checkCollision()` function we have already defined for checking if a flame has hit the boat.
+
+## Counting and showing the core
+
+Add an `alive` property to the `player` structure
+~~~.lua
+player = { x = 175, y = 500, speed = 150, img = nil, alive = true }
+~~~
+
+Check for the collision between the flames and the boat, just after having checked for the collision with the drops:
+
+~~~.lua
+function love.update(dt)
+    -- ...
+	for i, flame in ipairs(flames) do
+        -- ...
+		if checkCollision(flame.x, flame.y, flame.img:getWidth(), flame.img:getHeight(), player.x, player.y, player.img:getWidth(), player.img:getHeight())
+		and player.alive then
+			table.remove(flames, i)
+			player.alive = false
+		end
+    end
+    -- ...
+end
+~~~
+
+And only draw the flames, drops and the boat if the player is alive:
+
+~~~.lua
+function love.draw()
+    if player.alive then
+        -- ...
+    end
+end
+~~~
+
+It works, but once you get hit you have to restart the game to ge a new boat: in the last chapter we will improve that!
+
+## Restarting the game and keeping the score
+
+In `love.draw()`, whow the `Press 'R' to restart` message, when the player is not alive:
+
+~~~.lua
+function love.draw()
+    if player.alive then
+        -- ...
+    else
+        love.graphics.print("Press 'R' to restart", love.graphics:getWidth()/2-50, love.graphics:getHeight()/2-10)
+    end
+end
+~~~
+
+~~~.lua
+function love.update(dt)
+	-- ...
+	if not player.alive and love.keyboard.isDown('r') then
+		-- remove all drops and flames
+		drops = {}
+		flames = {}
+
+		-- reset timers
+		drop.intervalTimer = drop.interval
+		flame.intervalTimer = flame.interval
+
+		-- move player back to default position
+		player.x = 175
+		player.y = 500
+
+		-- reset our game state
+		player.alive = true
+	end
+end
+~~~
+
+Finally, we want get one point each time we hit a flame.
+
+We first add a `point` field in the `player` structure.
+
+~~~.lua
+player = { x = 175, y = 500, speed = 150, img = nil, points = 0, alive = true }
+~~~
+
+increase the number of points in when checking for collision between flames and drops:
+
+~~~.lua
+function love.update(dt)
+	-- ...
+	for i, flame in ipairs(flames) do
+		for j, drop in ipairs(drops) do
+			if checkCollision(flame.x, flame.y, flame.img:getWidth(), flame.img:getHeight(), drop.x, drop.y, drop.img:getWidth(), drop.img:getHeight()) then
+				table.remove(drops, j)
+				table.remove(flames, i)
+		        player.score = player.score + 1
+			end
+		end
+		-- ...
+~~~
+
+resetting the number of points when restarting the game:
+
+~~~.lua
+function love.update(dt)
+    -- ...
+	if not player.alive and love.keyboard.isDown('r') then
+        -- ...
+        -- reset our game state
+        player.alive = true
+        player.score = 0
+    end
+end
+~~~
+
+And, finally, show the number of points:
+
+~~~.lua
+function love.draw()
+    -- ...
+    love.graphics.setColor(255, 255, 255)
+    love.graphics.print("SCORE: " .. tostring(player.score), 400, 10)
+end
+~~~
 
 ## Exercises
 
