@@ -38,7 +38,20 @@
 
 - <http://www.xarg.org/projects/>
 
+## Ideas for better code
+
+- modularize:
+  - <http://stackoverflow.com/questions/9673105/modular-code-structure-in-lua>
+  - <https://love2d.org/forums/viewtopic.php?t=10581&p=63706>
+
+
 ## Ideas for tiles and sprites
 
 - <https://github.com/karai17/Simple-Tiled-Implementation> and <http://www.mapeditor.org/> for creating / viewing tiled landscapes
 - <http://www.aseprite.org/>: Animated sprite editor & pixel art tool (Windows, Mac OS X, Linux)
+
+## Todo
+
+- Add a `README.md` in each `step-00` directory that tells the chapter it refers to.
+- Add a `LICENSE.md` to the full tutorial.
+- Add an animated gif at the beginning with the full result.

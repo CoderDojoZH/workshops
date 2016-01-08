@@ -13,3 +13,5 @@ Among other things allo of the listed text editors will highlight the syntax of 
 An alternative is to use an [Integrated Development Environment](glossary#IDE) (IDE).
 
 ## <a name="ide"></a>Integrated Development Environment (IDE)
+
+## <a name="algorithm"></a>Algorithm

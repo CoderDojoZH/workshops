@@ -34,7 +34,7 @@ debug = true
 playerImg = nil
 
 --[[
-Called whe the program starts: allows us to load the assets
+Called when the program starts: allows us to load the assets
 --]]
 function love.load(arg)
     playerImg = love.graphics.newImage('assets/fireboat.png')
@@ -83,7 +83,7 @@ debug = true
 player = { x = 175, y = 500, img = nil }
 
 --[[
-Called whe the program starts: allows us to load the assets
+Called when the program starts: allows us to load the assets
 --]]
 function love.load(arg)
     player.img = love.graphics.newImage('assets/fireboat.png')
@@ -111,7 +111,7 @@ debug = true
 player = { x = 175, y = 500, speed = 150, img = nil }
 
 --[[
-Called whe the program starts: allows us to load the assets
+Called when the program starts: allows us to load the assets
 --]]
 function love.load(arg)
     player.img = love.graphics.newImage('assets/fireboat.png')
@@ -158,7 +158,7 @@ debug = true
 player = { x = 175, y = 500, speed = 150, img = nil }
 
 --[[
-Called whe the program starts: allows us to load the assets
+Called when the program starts: allows us to load the assets
 --]]
 function love.load(arg)
     player.img = love.graphics.newImage('assets/fireboat.png')
@@ -247,7 +247,7 @@ drop = { speed = 250, img = nil }
 drops = {} -- List of bullets currently being drawn and updated
 
 --[[
-Called whe the program starts: allows us to load the assets
+Called when the program starts: allows us to load the assets
 --]]
 function love.load(arg)
     player.img = love.graphics.newImage('assets/fireboat.png')
@@ -578,6 +578,6 @@ function love.draw()
 end
 ~~~
 
-## Exercises
+## More features
 
 - Mirror the boat when turning left / right
