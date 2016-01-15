@@ -13,9 +13,18 @@
   - What is Löve
 - [Learning Lua](tutorial/learning-lua.md)
 - [Your first game with LÖVE](tutorial/learning-love.md)
-- What to do next
+  - Setup the game and draw the fireboat
+  - Stearing the Boat
+  - Throwing water drops
+  - Limiting the water throughput
+  - Adding the falling flames
+  - Extinguishing the fire
+  - Getting hit by the fire
+  - Restarting the game
+  - Keeping the score
+- [What to do next](tutorial/what-to-do-next)
   - Exercises
-  - [Learning more Lua](tutorial/learning-love.md)
+- [Learning more Lua](tutorial/learning-more-lua.md)
 - [Getting started on Linux](tutorial/getting-started-linux.md)
   - Installing Lua
   - Installing LÖVE

@@ -71,7 +71,7 @@ You can close the game by clicking on the close icons your system will have add 
 
 The source for this first example can be found on [GitHub](TODO).
 
-## Stearing the Fireboat
+## Stearing the Boat
 
 In our game, the Fireboat will move to the left and the right, avoiding the falling fire flames and throwing water at them.
 
@@ -419,11 +419,6 @@ function checkCollision(x1,y1,w1,h1, x2,y2,w2,h2)
         x2 < x1+w1 and
         y1 < y2+h2 and
         y2 < y1+h1
-
-        x1      < x2 + w2 and
-        x1 + w1 > x2      and
-        y1      < y2 + h2 and
-        y1 + h1 > y2
 end
 ~~~
 
@@ -436,8 +431,7 @@ This is called an <a href="glossary#algorithm"></a>algorithm, a list of specific
 
 ![check collision](images/collision-detection.png)
 
-
-After having scrolled the flames and drops, let's check if they're colliding:
+We can now use the `checkCollision()` function to check if any of the drops moving up is touching one of the flames falling down: if it's the case, we simply remove both of them from their respective lists.
 
 ~~~.lua
 --[[
@@ -454,35 +448,40 @@ for i, flame in ipairs(flames) do
 end
 ~~~
 
+At first sight, it looks like a rather complex process: We loop through all flames (the first `for`) and check if the current flame collides with the any of the drops (the second `for` inside of the first one).  
+When programming, if you want to check if things "are matching", you mostly have to check each of the possibility and cannot use the common sense to quickly check the most likely ones.  But computers are fast at going through lists!
+
 ## Getting hit by the fire
 
-We can use the same `checkCollision()` function we have already defined for checking if a flame has hit the boat.
+Each flame that is not caught by the water, can hit the ship make it sink
 
-## Counting and showing the core
-
-Add an `alive` property to the `player` structure
+We first add an `alive` property to the `player` structure:
 ~~~.lua
 player = { x = 175, y = 500, speed = 150, img = nil, alive = true }
 ~~~
 
-Check for the collision between the flames and the boat, just after having checked for the collision with the drops:
+TODO: should alive be replaced by burning?
+
+As soon as player.`alive` is set to false, we will know that the game is over.
+
+We can use the same `for i, flame in pairs(flames) do` loop in `update()` and the existing `checkCollision()` function to check if a flame has hit the boat.
 
 ~~~.lua
 function love.update(dt)
     -- ...
-	for i, flame in ipairs(flames) do
+    for i, flame in ipairs(flames) do
         -- ...
-		if checkCollision(flame.x, flame.y, flame.img:getWidth(), flame.img:getHeight(), player.x, player.y, player.img:getWidth(), player.img:getHeight())
-		and player.alive then
-			table.remove(flames, i)
-			player.alive = false
-		end
+
+        if checkCollision(flame.x, flame.y, flame.img:getWidth(), flame.img:getHeight(), player.x, player.y, player.img:getWidth(), player.img:getHeight()) 
+        and player.alive then
+            table.remove(flames, i)
+            player.alive = false
+        end
     end
-    -- ...
 end
 ~~~
 
-And only draw the flames, drops and the boat if the player is alive:
+What should happen when the player is not _alive_? The simplest answer is: nothing should happen aynmore. And the simplest way to make _nothing_ happen is to wrap all the content of the `love.draw()` function in a _is alive_ condition:
 
 ~~~.lua
 function love.draw()
@@ -491,12 +490,13 @@ function love.draw()
     end
 end
 ~~~
+Now, the flames, the drops and the boat are only drawn if the player is alive.
 
-It works, but once you get hit you have to restart the game to ge a new boat: in the last chapter we will improve that!
+The game is working now! But once you get hit you have to get ouf the game and launch it again to ge a new boat: in the next section we will improve that!
 
-## Restarting the game and keeping the score
+## Restarting the game
 
-In `love.draw()`, whow the `Press 'R' to restart` message, when the player is not alive:
+When the boat is on fire, we want to give the player the change to start a new game. In the `love.draw()` we improve the `if player.alive` condition by showing a message when the player is not alive:
 
 ~~~.lua
 function love.draw()
@@ -508,6 +508,10 @@ function love.draw()
 end
 ~~~
 
+When the player is not `alive`, the content of the `else` to the condition makes the `Press 'R' to restart` message to be rendered in the middle of the window.
+
+In a similar way as we are doing with the other key presses, we add a check for the `r` key at the end of the `love.update()` function:
+
 ~~~.lua
 function love.update(dt)
 	-- ...
@@ -517,8 +521,8 @@ function love.update(dt)
 		flames = {}
 
 		-- reset timers
-		drop.intervalTimer = drop.interval
-		flame.intervalTimer = flame.interval
+		drop.intervalTimer = 0
+		flame.intervalTimer = 0
 
 		-- move player back to default position
 		player.x = 175
@@ -530,15 +534,23 @@ function love.update(dt)
 end
 ~~~
 
-Finally, we want get one point each time we hit a flame.
+When the player is not _alive_ and the `r` key has been ressed, we reset all the structures to the values they were having at the beginning of the game:
+- we empty the list of drops and flames,
+- we reset the values of the timers ,
+- move the player to the starting point,
+- and set the player as _alive_
 
-We first add a `point` field in the `player` structure.
+## Keeping the score
+
+Finally, you will probably want to know how good you are at the game: for it, we need to keep the score: we will give one point each time a flame gets estinguised by the water.
+
+The first step is to add a `point` field in the `player` structure.
 
 ~~~.lua
 player = { x = 175, y = 500, speed = 150, img = nil, points = 0, alive = true }
 ~~~
 
-increase the number of points in when checking for collision between flames and drops:
+Increasing the points is pretty simple: each time we detect a collision between a flame and a drop, we increment `player.score` by one.
 
 ~~~.lua
 function love.update(dt)
@@ -554,21 +566,7 @@ function love.update(dt)
 		-- ...
 ~~~
 
-resetting the number of points when restarting the game:
-
-~~~.lua
-function love.update(dt)
-    -- ...
-	if not player.alive and love.keyboard.isDown('r') then
-        -- ...
-        -- reset our game state
-        player.alive = true
-        player.score = 0
-    end
-end
-~~~
-
-And, finally, show the number of points:
+In order to display the current score, we add two lines at the end of the `love.draw()` function:
 
 ~~~.lua
 function love.draw()
@@ -578,6 +576,23 @@ function love.draw()
 end
 ~~~
 
-## More features
+First we set the color to white through `love.graphics.setColor(255, 255, 255)`: the color being composed by [red, green and blue](glossary#rgb-color) mixing lot of each base color will give us white (255 is the maximum we can set).
 
-- Mirror the boat when turning left / right
+Just after that, we add in the top right corner a text saying `SCORE: ` followed by the current value for the score.
+
+Finally, we want to reset the score when the game restarts:
+
+~~~.lua
+function love.update(dt)
+    -- ...
+	if not player.alive and love.keyboard.isDown('r') then
+        -- ...
+
+		-- reset the score
+        score = 0
+
+        -- reset our game state
+        player.alive = true
+    end
+end
+~~~

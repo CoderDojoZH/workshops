@@ -1,5 +1,11 @@
 # Learning more Lua
 
+In the [Learning Lua](tutorial/learning-lua.md) chapter we have only seen the very basic features of Lua that are useful for creating your first game.
+
+Lua is indeed a very simple language, but there is more 
+
+TODO: move parts of the tables in the learnign lua chapter
+
 ## Tables
 
 ~~~.lua

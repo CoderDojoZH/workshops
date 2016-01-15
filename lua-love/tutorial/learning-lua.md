@@ -180,6 +180,39 @@ testScope()
 print(value) -- print the global value (100, modified by function)
 ~~~
 
-## Tables, classes and modules
+## Lists and structures
 
-Lua is a very simple language and what you have learned should be enough for creating your first game. But there is more to discover than what you've seen in this short chapter: in the "Learning more Lua" chapter you can find a few further constructs that you will probably need if you want to create more complex games with Lua and LÖVE.
+Lua is a very simple language and what you learn in this chapter should be enough for creating your first game. But there is more to discover than what you've seen in this short chapter: in the "Learning more Lua" chapter you can find a few further constructs that you will probably need if you want to create more complex games with Lua and LÖVE.
+
+We finish this chapter with a short overview of lists and structures, which are implemented as tables. You'll find more information on tables  in the [Learning more Lua](tutorial/learning-more-lua.md) chapter.
+
+~~~.lua
+-- Tables = Lua's only compound data structure;
+--          they are associative arrays.
+-- Similar to php arrays or js objects, they are
+-- hash-lookup dicts that can also be used as lists.
+
+-- Using tables as dictionaries / maps:
+
+-- Dict literals have string keys by default:
+t = {key1 = 'value1', key2 = false}
+
+-- String keys can use js-like dot notation:
+print(t.key1)  -- Prints 'value1'.
+t.newKey = {}  -- Adds a new key/value pair.
+t.key2 = nil   -- Removes key2 from the table.
+
+for key, val in pairs(u) do  -- Table iteration.
+  print(key, val)
+end
+
+-- Using tables as lists / arrays:
+
+-- List literals implicitly set up int keys:
+v = {'value1', 'value2', 1.21, 'gigawatts'}
+for i = 1, #v do  -- #v is the size of v for lists.
+  print(v[i])  -- Indices start at 1 !! SO CRAZY!
+end
+-- A 'list' is not a real type. v is just a table
+-- with consecutive integer keys, treated as a list.
+~~~

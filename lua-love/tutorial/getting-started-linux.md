@@ -1,4 +1,8 @@
-# Installing LÖVE
+# Getting started on Linux
+
+## Installing Lua
+
+## Installing LÖVE
 
 see the section on Linux on <https://love2d.org/wiki/Getting_Started>.
 
