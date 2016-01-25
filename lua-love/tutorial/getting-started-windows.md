@@ -1,4 +1,6 @@
-# Installing LÖVE
+# Getting started on Windows
+
+## Installing LÖVE
 
 see the section on Windows on <https://love2d.org/wiki/Getting_Started>.
 
