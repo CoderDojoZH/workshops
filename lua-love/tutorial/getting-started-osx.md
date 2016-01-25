@@ -1,4 +1,4 @@
-# Installing LÖVE
+# Getting started on OS X
 
 see the section on OS X on <https://love2d.org/wiki/Getting_Started>.
 
