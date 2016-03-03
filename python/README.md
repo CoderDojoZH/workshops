@@ -4,6 +4,7 @@
 - [Invent Your Own Computer Games with Python](http://inventwithpython.com/chapters/) and the related [blog](http://inventwithpython.com/blog/).
 - [Python 3.4 Programming Tutorials](https://www.youtube.com/playlist?list=PL6gx4Cwl9DGAcbMi1sH6oAMk4JHw91mC_) by thenewboston.
 - [Learn to Program in Python](http://www.codecademy.com/tracks/python) by CodeAcademy.
+- <https://inventwithpython.com/>: a few books on python (buy them or read them online for free).
 
 
 ## pyqt
