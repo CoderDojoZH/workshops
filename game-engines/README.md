@@ -18,3 +18,5 @@ The game engines should be free and multiplatform (at least Linux, OS X and Wind
 - ZGameEditor
 
 We should define some criteria for evaluating / triage the available game engines.
+
+- Tutorial for C++ / SDL: <http://lazyfoo.net/tutorials/SDL/index.php>
