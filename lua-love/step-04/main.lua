@@ -10,6 +10,7 @@ Called whe the program starts: allows us to load the assets
 function love.load(arg)
     player.img = love.graphics.newImage('assets/fireboat.png')
     drop.img = love.graphics.newImage('assets/drop.png')
+    love.graphics.setBackgroundColor(255, 255, 255)
 end
 
 --[[

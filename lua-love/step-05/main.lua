@@ -13,6 +13,7 @@ function love.load(arg)
     player.img = love.graphics.newImage('assets/fireboat.png')
     drop.img = love.graphics.newImage('assets/drop.png')
     flame.img = love.graphics.newImage('assets/flame.png')
+    love.graphics.setBackgroundColor(255, 255, 255)
 end
 
 --[[
