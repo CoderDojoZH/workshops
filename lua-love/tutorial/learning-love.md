@@ -440,7 +440,7 @@ Since there will be fewer flames on screen than bullets we'll loop them first
 --]]
 for i, flame in ipairs(flames) do
     for j, drop in ipairs(drops) do
-        if CheckCollision(flame.x, flame.y, flame.img:getWidth(), flame.img:getHeight(), drop.x, drop.y, drop.img:getWidth(), drop.img:getHeight()) then
+        if checkCollision(flame.x, flame.y, flame.img:getWidth(), flame.img:getHeight(), drop.x, drop.y, drop.img:getWidth(), drop.img:getHeight()) then
             table.remove(drops, j)
             table.remove(flames, i)
         end
