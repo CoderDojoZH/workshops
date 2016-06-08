@@ -141,6 +141,7 @@ After each modification of your code, you should run the game and test if the ch
 When a movmement key is pressed, we must make sure that the boat cannot go over the border. We can use the `math.max()` function to ensure that the boat's `x` value is never smaller than `0`. Likewise we can use and `math.min()` to prevent the boat leaving the window beyond the window's width on the right side. We must also account width of the boat itself. This is our modified `love.update(dt)` callback function:
 
 ~~~.lua
+--[[
 Called very often by the love engine
 dt is the amount of time elapsed since the last callback
 --]]
