@@ -1,10 +1,10 @@
-# Your first game with LÖVE
+# Your first game with LÖVE - Fireboat
 
 We are now ready to put our hands into LÖVE and create our first game: a Fireboat throwing water at flames falling from the sky.
 
 ## Setup the game and draw the fireboat
 
-For our first game we create a `Fireboat/` directory somewhere on your computer (`Documents` is a good place for it) . This directory will contain all the files for our game.
+For our first game we create a `Fireboat` directory somewhere on your computer (`Documents` is a good place for it but some will prefer to create it on the `Desktop`) . This directory will contain all the files for our game (and nothing else).
 
 Start the [text editor](glossary#text-editor) and create the `conf.lua` file:
 
@@ -12,7 +12,7 @@ Start the [text editor](glossary#text-editor) and create the `conf.lua` file:
 -- Configuration file that gets read by Löve
 function love.conf(t)
     t.title = "Fireboat Tutorial"
-    t.version = "0.9.1" -- The LÖVE version targetted
+    t.version = "0.10.1" -- The LÖVE version targetted 
     t.window.width = 400
     t.window.height = 600
 
@@ -22,11 +22,15 @@ end
 
 The `conf.lua` file is automatically read by LÖVE. The `love.conf(t)` function we define in `conf.lua` is automatically executed before the game starts.
 
-The main attributes we are setting in the configuration file are the title and the size of the window where the game will be shown.
+The main attributes we are setting in the configuration file are the title and the size of the window when the game will be shown. If you have downloaded a newer version of Löve you need to adjust the `t.version` variable to match the downloaded version or Löve will show you a "Compatibility Warning".
 
 A [complete list of the attributes](http://www.love2d.org/wiki/Config_Files) you can set can be found in the LÖVE wiki.
 
-In the same `Fireboat` directory we create another file called `main.lua` where we will write the game's logic.
+
+Our next step is to create the image of the fireboat we want to draw. Images for the game belong into a subdirectory of the `Fireboat` directory called `assets`. Go ahead and create that now. Then browse the internet to find a suitable image for the fireboat. Use your favorite image editing tool to shrink it to perhas 150 x 100 pixels and savie it as a `.png` file in our new `assets` directory.
+
+
+Now move back to the `Fireboat` and create another file called `main.lua` with the text editor where we will write the game's code.
 
 ~~~.lua
 debug = true
@@ -35,41 +39,40 @@ playerImg = nil
 
 --[[
 Called when the program starts: allows us to load the assets
+Called exactly once.
 --]]
 function love.load(arg)
     playerImg = love.graphics.newImage('assets/fireboat.png')
 end
 
 --[[
-Called for each frame
+Called very often by the love engine
 --]]
 function love.draw()
     love.graphics.draw(playerImg, 175, 500) -- Draw it towards the bottom of the window
 end
 ~~~
 
-In the same way as LÖVe is calling the `love.conf(t)` function we have defined in `conf.lua`, LÖVe will also:
+In the same way as LÖVE is calling the `love.conf(t)` function we have defined in `conf.lua`, LÖVE will also:
 
-- run `love.load(arg)` when the program starts.
-- run `love.draw()` each time it redraws the window.
+- call `love.load(arg)` once when the program starts.
+- call `love.draw()` very frequently to redraws the window.
 
+We call these `callback` functions as the LÖVE decides when to call them but we get to write what they do.
 In this very first version our game is loading the `fireboat.png` image and drawing it at the coordinates `175, 500`.
 
-As you might have guessed, before we can run the program, we have to create an `assets/` directory inside of our game's directory and copy into there the `fireboat.png` image file.
 
 Our application is ready to run!
 
 As explained in the Getting started chapters for [Linux](TODO), [Mac OS X](TODO), and [Windows](TODO), depending on your operating system and your personal preferences you can now
 
-- drag the the `Fireboat/` directory on the `Love` application icon (preferred for Windows and OS X) or
-- run `love Fireoboat/` in the terminal while being in the directory above the `Fireoboat/` directory (preferred for Linux)
+- On Windows or Mac drag the the `Fireboat` directory onto the `Love` application icon or
+- On Linux run  `love .` in the terminal while being inside the `Fireoboat` directory
 
 ![The window created by LÖVE with the fireboat](images/fireboat-creating-01.png)
 
+You can close the game by clicking on standard close icon of the window.
 
-You can close the game by clicking on the close icons your system will have add to your window (TODO: add small screenshots for some Window managers).
-
-The source for this first example can be found on [GitHub](TODO).
 
 ## Stearing the Boat
 
