@@ -58,7 +58,7 @@ In the same way as LÖVE is calling the `love.conf(t)` function we have defined 
 - call `love.load(arg)` once when the program starts.
 - call `love.draw()` very frequently to redraws the window.
 
-We call these `callback` functions as the LÖVE decides when to call them but we get to write what they do.
+We call these `callback` functions as LÖVE decides when to call them but we get to write what they do.
 In this very first version our game is loading the `fireboat.png` image and drawing it at the coordinates `175, 500`.
 
 
@@ -76,37 +76,9 @@ You can close the game by clicking on standard close icon of the window.
 
 ## Stearing the Boat
 
-In our game, the Fireboat will move to the left and the right, avoiding the falling fire flames and throwing water at them.
+In our game, the Fireboat will move to the left and the right, avoiding the falling fire flames and squrting water drops at them.
 
-The first step is to define the boat position in an object that we can manipulate:
-
-~~~.lua
-debug = true
-
-player = { x = 175, y = 500, img = nil }
-
---[[
-Called when the program starts: allows us to load the assets
---]]
-function love.load(arg)
-    player.img = love.graphics.newImage('assets/fireboat.png')
-end
-
---[[
-Called for each frame
---]]
-function love.draw()
-    love.graphics.draw(player.img, player.x, player.y) -- draw it towards at the position (x, y)
-end
-~~~
-
-The `fireboat.png` image, the horizontal (`x`) and the vertical (`y`) position are now defined inside of the `player` structure. The `player`'s fields are used for loading the image `love.load()` and then for drawing it in `love.draw()` at the position defined by `player.x` and `player.y`.
-
-A remark: the coordinates have their origin -- the `(0, 0)` point -- in the top left corner: `(175, 500)` is the distance in pixels from the top left corner of the bounding box around the image and the top left corner of the window.
-
-![Coordinates origin is the upper left corner](images/fireboat-coordinates.png)
-
-We are now ready for binding the boat's movements with the keyboard:
+The first step is to define a `player` object that will remember all the details about the position of the boat and what it looks like. Modify the `main.lua` file and replace the `playerImg` line with the `player = ` line, change the `love.load` function and the `love.draw` as shown below:
 
 ~~~.lua
 debug = true
@@ -115,85 +87,78 @@ player = { x = 175, y = 500, speed = 150, img = nil }
 
 --[[
 Called when the program starts: allows us to load the assets
+Called exactly once.
 --]]
 function love.load(arg)
     player.img = love.graphics.newImage('assets/fireboat.png')
 end
 
 --[[
-Called for each frame
-@param numeric dt time elapsed since the last call
+Called very often by the love engine
+--]]
+function love.draw()
+    love.graphics.draw(player.img, player.x, player.y) -- draw it towards at the position (x, y)
+end
+~~~
+
+The `fireboat.png` image, the horizontal (`x`) and the vertical (`y`) position are now defined as members inside the `player` object. The `love.load()` function loads `fireboat.png` into the `player.img` member variable. When LÖVE calls `love.draw()` we instruct the computer to draw the fireboat loaded into `player.img` at the at the position defined by `player.x` and `player.y`.
+
+A remark: the coordinates have their origin -- the `(0, 0)` point -- in the top left corner: `(175, 500)` is the distance in pixels from the top left corner of the game area and not the top left corner of the window which has the close buttons etc.
+
+![Coordinates origin is the upper left corner](images/fireboat-coordinates.png)
+
+We are now ready for binding the boat's movements with the keyboard. To do this we need to add the `love.update(dt)` callback function to our `main.lua` file. The function belongs between the `love.load(arg)` callback function and the `love.draw()` callback function. Many games work like this: They load the assets, then they figure out what moves where and then draw all the objects on the screen. The last two steps are repeated very quickly until the game is shut down.
+
+~~~.lua
+--[[
+Called very often by the love engine
+dt is the amount of time elapsed since the last callback
 --]]
 function love.update(dt)
-    -- We need a way to get out of the game...
+    -- Check if the escape key is pressed and quit the game
     if love.keyboard.isDown('escape') then
         love.event.push('quit')
     end
 
-    -- Left arrow and 'a', to the left, right arrow and 'd' to the right...
+    -- Left arrow and 'a' moves the player to the left, right arrow and 'd' move to the right
     if love.keyboard.isDown('left','a') then
         player.x = player.x - (player.speed * dt)
     elseif love.keyboard.isDown('right','d') then
         player.x = player.x + (player.speed * dt)
     end
 end
-
---[[
-Called for each frame
---]]
-function love.draw()
-    love.graphics.draw(player.img, player.x, player.y) -- draw it towards at the position (x, y)
-end
 ~~~
 
-We are adding a `love.update()` function that triggers the `quit` event when the `ESC` key is pressed and changes the boat's `x` position  when the arrow keys or the `a` / `d` keys are pressed.
+Our `love.update()` callback function first checks if the `ESC` key is pressed and send a `quit` event to the LÖVE engine if that is the case. If the arrow keys or `a` or `d` are pressed the player's `x` position is modified. The next time LÖVE calls `love.draw()` the boat will be drawn in a different location.
 
-Each movement of the player is calculated by multiplying the `speed` field -- it's the new field in the player's structure -- by the "delta-time" (`dt`) variable that LÖVE is giving us as parameter to the `love.update()` function.  
-`dt` is the time elapsed since the last time LÖVE has called `love.update()` and is used to make the game run at the same pace on computers with different speeds.  
-If you want the boat to react faster or slower to the commands, you can modify the value of `player = { .... speed = 150 ...}`.
+Each movement of the player is calculated by multiplying the `player.speed` member variable field by the "delta-time" (`dt`) variable that LÖVE is giving us as parameter to the `love.update()` function. `dt` is the time elapsed since the last time LÖVE has called `love.update()` and is used to make the game run at the same pace on computers with different speeds. It is a very small number. We have set `player.speed` to the value of 150. This means that in one second we will move the player left or right 150 pixels. Because the computer is calling `love.update()` many hundreds of times in a second we move the player only by the proportional amount of the 150 pixels in each update. To make the boat move faster you need to change the variable so that it moves a greater distance in pixels in a second. That is, modify the value of `player = { .... speed = 150 ...}` to perhaps 250.
 
-After each modification of your code, you should run the game and test if the changes have the expected result. If you have done so, you will have noticed that the boat can "sail" out of the window.  
-When the key is pressed, we should make sure that the boat cannot go over the border: the `math.max()` and `math.min()` ensure that the boat's `x` value is never smaller than `0` nor bigger than the window's width. Since the position of the boat gets calculated by it's top left corner, for the right side check we have to add the width of the boat itself.
+
+## A Bug!
+
+After each modification of your code, you should run the game and test if the changes have the expected result. If you have done so, you will have noticed that the boat can "sail" out of the window!
+
+When a movmement key is pressed, we must make sure that the boat cannot go over the border. We can use the `math.max()` function to ensure that the boat's `x` value is never smaller than `0`. Likewise we can use and `math.min()` to prevent the boat leaving the window beyond the window's width on the right side. We must also account width of the boat itself. This is our modified `love.update(dt)` callback function:
 
 ~~~.lua
-debug = true
-
-player = { x = 175, y = 500, speed = 150, img = nil }
-
---[[
-Called when the program starts: allows us to load the assets
---]]
-function love.load(arg)
-    player.img = love.graphics.newImage('assets/fireboat.png')
-end
-
---[[
-Called for each frame
-@param numeric dt time elapsed since the last call
+Called very often by the love engine
+dt is the amount of time elapsed since the last callback
 --]]
 function love.update(dt)
-    -- We need a way to get out of the game...
+    -- Check if the escape key is pressed and quit the game
     if love.keyboard.isDown('escape') then
         love.event.push('quit')
     end
 
-    -- Left arrow and 'a', to the left, right arrow and 'd' to the right...
+    -- Left arrow and 'a' moves the player to the left, right arrow and 'd' move to the right
     if love.keyboard.isDown('left','a') then
         player.x = math.max(player.x - (player.speed * dt), 0)
     elseif love.keyboard.isDown('right','d') then
         player.x = math.min(player.x + (player.speed * dt), love.graphics.getWidth() - player.img:getWidth())
     end
 end
-
---[[
-Called for each frame
---]]
-function love.draw()
-    love.graphics.draw(player.img, player.x, player.y) -- draw it towards at the position (x, y)
-end
 ~~~
 
-The source for this stage of the game can be found on [GitHub](TODO).
 
 ## Throwing water drops
 
