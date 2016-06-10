@@ -165,22 +165,45 @@ end
 
 Now that we are able to stear our boat, we can get to the next task: throw water drops.
 
-First you need an image for drop. You can draw your own or download the one we're using for our sample code: [drop.png](https://raw.githubusercontent.com/CoderDojoZH/workshops/master/lua-love/step-03/assets/drop.png).
+First you need an image for drop. You can draw your own or download the one we're using for our sample code: [drop.png](https://raw.githubusercontent.com/CoderDojoZH/workshops/master/lua-love/step-03/assets/drop.png). Save it as a `.png` file in the `assets` directory. It should be small, say 50 x 50 pixels.
 
-In `love.update()` we add the code to detect when the space bar is pressed (`love.keyboard.isDown(' ')`).  
-The `newDrop` is based in the `drop` structure we define at the beginning of the program and gets inserted in the `drops` list (also newly defined at the beginning of the program):
+Next we need a global variable drop which gives us the attributes we need to know about a single drop like the speed and the image. Since we will have many drops on the screen we need a variable which we will use as a `table` to record the many individual drops. You need to add the two lines at the beginning of the program near the definition of the player variable.
 
 ~~~.lua
+...
+player = { x = 175, y = 500, speed = 150, img = nil }
+drop = { speed = 250, img = nil }
+drops = {} -- List of bullets currently being drawn and updated
+...
+~~~
+
+We now need to go to the `love.load(arg)` callback function and load the png image into the `drop.img` member variable.
+
+~~~.lua
+...
+function love.load(arg)
+    player.img = love.graphics.newImage('assets/fireboat.png')
+    drop.img = love.graphics.newImage('assets/drop.png')
+end
+---
+~~~
+
+How will new drops be created? We want them to shoot up from the middle of the fireboad = player when the gamer presses the space bar. To achieve this we add code to the `love.update()` callback function to detect when the space bar is pressed (`love.keyboard.isDown(' ')`).  
+When this is the case we create a variable `newDrop` which has coordinates taken from the `player` variable but the speed and img are taken from the drop object. The newDrop is inserted in the `drops` table.
+
+~~~.lua
+-- add inside love.update:
 -- Create a bullet on space at the boat position
-if love.keyboard.isDown(' ') then
+if love.keyboard.isDown('space') then
     newDrop = { x = player.x + (player.img:getWidth()/2), y = player.y, speed = drop.speed, img = drop.img }
     table.insert(drops, newDrop)
 end
 ~~~
 
-We also want the drop to move upwards until it reaches the top of the window: each time `love.update()` gets called, each drop moves up according to `drop.speed`:
+We also want the drop to move upwards until it reaches the top of the window: each time `love.update()` gets called, each drop moves the number of pixels proportional to the dt time interval of the `drop.speed`:
 
 ~~~.lua
+-- add inside love.update:
 -- Scroll up the position of the drops
 for i, drop in ipairs(drops) do
     drop.y = drop.y - (drop.speed * dt)
@@ -191,11 +214,12 @@ for i, drop in ipairs(drops) do
 end
 ~~~
 
-Since the drops are moving up, we remove the speed from the current drop position.
+Note that we added a check to see if the drops reach the top of the screen abd then remove them from the `drops` table.
 
-The `ipars(drops)` function gives as each drop and the matching `i` position in the list. We use the `i` index to remove the drop from the list if it has passed off the screen.
+The `ipars(drops)` function gives us each drop and the matching `i` position index in the table. We use the `i` index to remove the drop from the list if it has passed off the screen.
 
-In the `love.draw()` function we loop again through all the `drops` and display each of them at its `drop.x` and `drop.y` coordinate.
+
+Next we need to enhance the `love.draw()` function to draw the drops on the screen. We loop again through all the `drops` and display each of them at its `drop.x` and `drop.y` coordinate. Add the 3 lines of the for loop to the `love.draw()` function:
 
 ~~~.lua
 function love.draw()
@@ -206,7 +230,9 @@ function love.draw()
 end
 ~~~
 
-A remark: in the `for i, drop  in ipairs(drops)` loop we are defining a local `drop` variable: it's not a problem to use the same name as the global `drop` structure, but inside of the `for` loop we cannot access the global `drop` (for more information see the short section on ["Scope"](learning-lua#scope) in the ["Learning Lua"](learning-lua) chapter.
+A remark: in the `for i, drop  in ipairs(drops)` loop we are defining a local `drop` variable. This variable is not the same variable as the one at the top of the program even though it has the exact same name. This one is a local variable. The disadvantage of using the same name is that we can't access the global variable inside the for loop and that can be confusing. Here it's not a problem since we don't need anything from the global `drop` object (for more information see the short section on ["Scope"](learning-lua#scope) in the ["Learning Lua"](learning-lua) chapter.
+
+Here is the program as it stands now:
 
 ~~~.lua
 debug = true
@@ -217,6 +243,7 @@ drops = {} -- List of bullets currently being drawn and updated
 
 --[[
 Called when the program starts: allows us to load the assets
+Called exactly once.
 --]]
 function love.load(arg)
     player.img = love.graphics.newImage('assets/fireboat.png')
@@ -224,13 +251,124 @@ function love.load(arg)
 end
 
 --[[
-Called for each frame
-@param numeric dt time elapsed since the last call
+Called very often by the love engine
+dt is the amount of time elapsed since the last callback
 --]]
 function love.update(dt)
     -- We need a way to get out of the game...
     if love.keyboard.isDown('escape') then
         love.event.push('quit')
+    end
+
+    -- Create a bullet on space at the boat position
+    if love.keyboard.isDown('space') then
+        newDrop = { x = player.x + (player.img:getWidth()/2), y = player.y, speed = drop.speed, img = drop.img }
+        table.insert(drops, newDrop)
+    end
+
+    -- Left arrow and 'a' moves the player to the left, right arrow and 'd' move to the right
+    if love.keyboard.isDown('left','a') then
+        player.x = math.max(player.x - (player.speed * dt), 0)
+    elseif love.keyboard.isDown('right','d') then
+        player.x = math.min(player.x + (player.speed * dt), love.graphics.getWidth() - player.img:getWidth())
+    end
+    
+    -- Scroll up the position of the drops
+    for i, drop in ipairs(drops) do
+        drop.y = drop.y - (drop.speed * dt)
+
+        if drop.y < 0 then -- Remove bullets when they pass off the screen
+            table.remove(drops, i)
+        end
+    end
+end
+
+--[[
+Called very often by the love engine
+--]]
+function love.draw()
+    for i, drop in ipairs(drops) do
+        love.graphics.draw(drop.img, drop.x, drop.y)
+    end
+    love.graphics.draw(player.img, player.x, player.y)
+end
+~~~
+
+
+## Limiting the water throughput
+
+Right now, when you keep on pressing the space bar a big column of water is thrown out. Our next task is to enfoce a small interval between two drops.
+
+We define the interval by extending the `drop` structure with the two fields `interval` and `intervalTimer`. Go to the top of the program and change the `drop` definition:
+
+~~~.lua
+drop = { speed = 250, img = nil, interval = 0.2, intervalTimer = 0 }
+~~~
+
+Each time we produce a drop, we set `drop.intervalTimer` to the value of `drop.interval` and let the `love.update()` function decrease the `drop.intervalTimer` by the elapsed time received in the `dt` parameter. With the `drop.interval` set to 200ms that means we can shoot a new drop only after this time has passed. We also add a condition to the `if` test so that we can only release a new drop when the `drop.intervalTimer` is smaller than 0 meaning that we have waited for at least 200ms.
+
+~~~.lua
+-- Add this to the love.update function and change the if statement and add the extra line at the end
+-- Decrease the drop interval timer before the next drop
+drop.intervalTimer = drop.intervalTimer - dt
+
+-- Create a drop on space at the boat position if intervalTimer got back to zero
+if love.keyboard.isDown('space') and drop.intervalTimer < 0 then
+    newDrop = { x = player.x + (player.img:getWidth()/2), y = player.y, speed = drop.speed, img = drop.img }
+    table.insert(drops, newDrop)
+    drop.intervalTimer = drop.interval
+end
+~~~
+
+Your game should now look similar to this:
+
+![Fireboat with drops](images/fireboat-drops.png)
+
+
+Here is what the full program now looks like at this stage:
+
+~~~.lua
+debug = true
+
+player = { x = 175, y = 500, speed = 150, img = nil }
+drop = { speed = 250, img = nil, interval = 0.2, intervalTimer = 0 }
+drops = {} -- List of bullets currently being drawn and updated
+
+--[[
+Called when the program starts: allows us to load the assets
+Called exactly once.
+--]]
+function love.load(arg)
+    player.img = love.graphics.newImage('assets/fireboat.png')
+    drop.img = love.graphics.newImage('assets/drop.png')
+end
+
+--[[
+Called very often by the love engine
+dt is the amount of time elapsed since the last callback
+--]]
+function love.update(dt)
+    -- Check if the escape key is pressed and quit the game
+    if love.keyboard.isDown('escape') then
+        love.event.push('quit')
+    end
+
+    -- Left arrow and 'a' moves the player to the left, right arrow and 'd' move to the right
+    if love.keyboard.isDown('left','a') then
+        player.x = math.max(player.x - (player.speed * dt), 0)
+    elseif love.keyboard.isDown('right','d') then
+        player.x = math.min(player.x + (player.speed * dt), love.graphics.getWidth() - player.img:getWidth())
+    end
+
+    -- Decrease the drop interval timer before the next drop
+    drop.intervalTimer = drop.intervalTimer - dt
+
+
+    -- Create a drop on space at the boat position
+    if love.keyboard.isDown('space') and drop.intervalTimer < 0 then
+        newDrop = { x = player.x + (player.img:getWidth()/2), y = player.y, speed = drop.speed, img = drop.img }
+        table.insert(drops, newDrop)
+        drop.intervalTimer = drop.interval
     end
 
     -- Scroll up the position of the drops
@@ -242,89 +380,44 @@ function love.update(dt)
         end
     end
 
-    -- Create a bullet on space at the boat position
-    if love.keyboard.isDown(' ') then
-        newDrop = { x = player.x + (player.img:getWidth()/2), y = player.y, speed = drop.speed, img = drop.img }
-        table.insert(drops, newDrop)
-    end
-
-    -- Left arrow and 'a', to the left, right arrow and 'd' to the right...
-    if love.keyboard.isDown('left','a') then
-        player.x = math.max(player.x - (player.speed * dt), 0)
-    elseif love.keyboard.isDown('right','d') then
-        player.x = math.min(player.x + (player.speed * dt), love.graphics.getWidth() - player.img:getWidth())
-    end
 end
 
+
 --[[
-Called for each frame
+Called very often by the love engine
 --]]
 function love.draw()
     for i, drop in ipairs(drops) do
         love.graphics.draw(drop.img, drop.x, drop.y)
     end
-    love.graphics.draw(player.img, player.x, player.y)
+    love.graphics.draw(player.img, player.x, player.y) -- draw it towards at the position (x, y)
 end
 ~~~
-
-
-
-At thend of this tutorial, the full code for our game will count around 150 lines of code. We are currently at about 50 lines of code right now: but it's already getting too long for the full code being reproduced at each step.  
-From this point on, we will show the new code to be typed and describe where it should be inserted. Of course, we will continue providing links to the external repository where you can see to the full code at each stage, so that you can cross check your code, if you think you made an error.
-
-The full code for this stage is on [Github](https://github.com/CoderDojoZH/workshops/blob/master/lua-love/step-03/).
-
-## Limiting the water throughput
-
-Right now, when you keep on pressing the space bar a big column of water is thrown out. Our next task is to enfoce a small interval between two drops.
-
-We define the interval by extending the `drop` structure with the two fields `interval` and `intervalTimer`:
-
-~~~.lua
-drop = { speed = 250, img = nil, interval = 0.2, intervalTimer = 0 }
-~~~
-
-Each time we produce a drop, we set `drop.intervalTimer` to the value of `drop.interval` and let the `love.update()` function decrease the `drop.intervalTimer` by 1 multiplied by the `dt` parameter.  We also add a condition that only lets process the action bound to the space bar if the `drop.intervalTimer` is smaller than 0:
-
-~~~.lua
--- Decrease the drop interval timer before the next drop
-drop.intervalTimer = drop.intervalTimer - (1 * dt)
-
--- Create a drop on space at the boat position if intervalTimer got back to zero
-if love.keyboard.isDown(' ', 'space') and drop.intervalTimer < 0 then
-    newDrop = { x = player.x + (player.img:getWidth()/2), y = player.y, speed = drop.speed, img = drop.img }
-    table.insert(drops, newDrop)
-    drop.intervalTimer = drop.interval
-end
-~~~
-
-Your game should now look similar to this:
-
-![Fireboat with drops](images/fireboat-drops.png)
-
-The full code for this stage is on [Github](https://github.com/CoderDojoZH/workshops/blob/master/lua-love/step-04/).
 
 
 ## Adding the falling flames
 
+Just like the drops we first need an image of the flames. Go ahead and look for a suitable image in a 50 x 50 pixel size and save it as `.png` file in the `assets` directory. Just like the drop and drops we need a flame object for the details about a flame and a flames table to remember the position of all of our flames.
+
 ~~~.lua
+-- Add this at the top of the program where we define the other variables
 flame = { speed = 200, img = nil, interval = 0.4, intervalTimer = 0 }
 flames = {} -- List of flames currently being drawn and updated
 ~~~
 
 ~~~.lua
 function love.load(arg)
-    -- ...
+    -- inside the love.load function add this line
     flame.img = love.graphics.newImage('assets/flame.png')
 end
 ~~~
 
+Next we need to change the `love.update(dt)` function so that after the interval for the flames a new flame is added to the table of flames at a random position across the top of the screen.
+
 ~~~.lua
 function love.update(dt)
-    -- ...
-
+    -- add these lines to the love.update function:
     -- Decrease the drop interval timer before the next drop/flame
-    -- ...
     flame.intervalTimer = flame.intervalTimer - (1 * dt)
 
     -- Create a flame at the top with a random x position if intervalTimer got back to zero
@@ -334,11 +427,10 @@ function love.update(dt)
         table.insert(flames, newFlame)
         flame.intervalTimer = flame.interval
     end
-    -- ...
 end
 ~~~
 
-Append just after the scrolling down of the drops, the scrolling up of the flames:
+And we also want to have code in the update function that moves the drops downwards. So add these lines to the `love.update(dt)` function:
 
 ~~~.lua
 -- Scroll down the position of the flames
@@ -351,15 +443,14 @@ for i, flame in ipairs(flames) do
 end
 ~~~
 
-And draw each flame...
+Inside the draw function we need to make sure that each flame is drawn on the screen
 
 ~~~.lua
 function love.draw()
-    -- ...
+    -- add these lines to the love.draw function
 	for i, flame in ipairs(flames) do
 		love.graphics.draw(flame.img, flame.x, flame.y)
 	end
-    -- ...
 end
 ~~~
 
@@ -367,7 +458,104 @@ Your game should now look similar to this:
 
 ![Fireboat with drops](images/fireboat-drops-flames.png)
 
-The full code for this stage is on [Github](https://github.com/CoderDojoZH/workshops/blob/master/lua-love/step-05/).
+Here is the full program at this stage:
+~~~.lua
+debug = true
+
+player = { x = 175, y = 500, speed = 150, img = nil }
+drop = { speed = 250, img = nil, interval = 0.2, intervalTimer = 0 }
+drops = {} -- List of bullets currently being drawn and updated
+flame = { speed = 200, img = nil, interval = 0.4, intervalTimer = 0 }
+flames = {} -- List of flames currently being drawn and updated
+
+
+--[[
+Called when the program starts: allows us to load the assets
+Called exactly once.
+--]]
+function love.load(arg)
+    player.img = love.graphics.newImage('assets/fireboat.png')
+    drop.img = love.graphics.newImage('assets/drop.png')
+    flame.img = love.graphics.newImage('assets/flame.png')
+end
+
+--[[
+Called very often by the love engine
+dt is the amount of time elapsed since the last callback
+--]]
+function love.update(dt)
+    -- Check if the escape key is pressed and quit the game
+    if love.keyboard.isDown('escape') then
+        love.event.push('quit')
+    end
+
+    -- Left arrow and 'a' moves the player to the left, right arrow and 'd' move to the right
+    if love.keyboard.isDown('left','a') then
+        player.x = math.max(player.x - (player.speed * dt), 0)
+    elseif love.keyboard.isDown('right','d') then
+        player.x = math.min(player.x + (player.speed * dt), love.graphics.getWidth() - player.img:getWidth())
+    end
+
+    -- Decrease the drop interval timer before the next drop
+    drop.intervalTimer = drop.intervalTimer - dt
+
+
+    -- Create a drop on space at the boat position
+    if love.keyboard.isDown('space') and drop.intervalTimer < 0 then
+        newDrop = { x = player.x + (player.img:getWidth()/2), y = player.y, speed = drop.speed, img = drop.img }
+        table.insert(drops, newDrop)
+        drop.intervalTimer = drop.interval
+    end
+
+    -- Scroll up the position of the drops
+    for i, drop in ipairs(drops) do
+        drop.y = drop.y - (drop.speed * dt)
+
+        if drop.y < 0 then -- Remove bullets when they pass off the screen
+            table.remove(drops, i)
+        end
+    end
+
+    -- Decrease the drop interval timer before the next drop/flame
+    flame.intervalTimer = flame.intervalTimer - (1 * dt)
+
+    -- Create a flame at the top with a random x position if intervalTimer got back to zero
+    if flame.intervalTimer < 0 then
+        randomX = math.random(10, love.graphics.getWidth() - 10)
+        newFlame = { x = randomX, y = -10, speed = flame.speed, img = flame.img }
+        table.insert(flames, newFlame)
+        flame.intervalTimer = flame.interval
+    end
+
+    -- Scroll down the position of the flames
+    for i, flame in ipairs(flames) do
+        flame.y = flame.y + (flame.speed * dt)
+        if flame.y > love.graphics.getHeight() then -- Remove bullets when they pass off the screen
+            table.remove(flames, i)
+        end
+    end
+
+end
+
+
+--[[
+Called very often by the love engine
+--]]
+function love.draw()
+    for i, drop in ipairs(drops) do
+        love.graphics.draw(drop.img, drop.x, drop.y)
+    end
+
+    for i, flame in ipairs(flames) do
+		love.graphics.draw(flame.img, flame.x, flame.y)
+	end
+
+    love.graphics.draw(player.img, player.x, player.y) -- draw it towards at the position (x, y)
+end
+~~~
+
+
+
 
 ## Extinguishing the fire
 
