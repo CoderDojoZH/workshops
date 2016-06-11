@@ -633,7 +633,8 @@ As soon as `player.alive` is set to `false`, we will know that the game is over.
 We can use the same `for i, flame in pairs(flames) do` loop in `update()` and the existing `checkCollision()` function to check if a flame has hit the boat.
 
 ~~~.lua
--- inside the function love.update(dt), add the below lines inide the flame for loop (but not inside the drop loop)
+-- inside the function love.update(dt), add the below lines inide the 
+-- flame for loop (but not inside the drop loop)
     -- ...
     for i, flame in ipairs(flames) do
         -- ...
@@ -645,7 +646,6 @@ We can use the same `for i, flame in pairs(flames) do` loop in `update()` and th
             player.alive = false
         end
     end
-end
 ~~~
 
 What should happen when the player is not _alive_? The simplest answer is: nothing should happen aynmore. And the simplest way to make _nothing_ happen is to wrap all the content of the `love.draw()` function in a _is alive_ condition:
@@ -932,7 +932,6 @@ function love.draw()
     end
     love.graphics.setColor(255, 255, 255)
     love.graphics.print("SCORE: " .. tostring(player.points), 320, 10)
-
 end
 ~~~
 
@@ -1158,6 +1157,5 @@ function love.draw()
     end
     love.graphics.setColor(255, 255, 255)
     love.graphics.print("SCORE: " .. tostring(player.points), 320, 10)
-
 end
 ~~~
