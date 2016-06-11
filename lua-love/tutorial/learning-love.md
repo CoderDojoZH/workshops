@@ -196,7 +196,8 @@ When this is the case we create a variable `newDrop` which has coordinates taken
 -- add inside love.update:
 -- Create a bullet on space at the boat position
 if love.keyboard.isDown('space') then
-    newDrop = { x = player.x + (player.img:getWidth()/2), y = player.y, speed = drop.speed, img = drop.img }
+    newDrop = { x = player.x + (player.img:getWidth()/2), y = player.y, 
+      speed = drop.speed, img = drop.img }
     table.insert(drops, newDrop)
 end
 ~~~
@@ -263,7 +264,8 @@ function love.update(dt)
 
     -- Create a bullet on space at the boat position
     if love.keyboard.isDown('space') then
-        newDrop = { x = player.x + (player.img:getWidth()/2), y = player.y, speed = drop.speed, img = drop.img }
+        newDrop = { x = player.x + (player.img:getWidth()/2), y = player.y, 
+          speed = drop.speed, img = drop.img }
         table.insert(drops, newDrop)
     end
 
@@ -271,7 +273,8 @@ function love.update(dt)
     if love.keyboard.isDown('left','a') then
         player.x = math.max(player.x - (player.speed * dt), 0)
     elseif love.keyboard.isDown('right','d') then
-        player.x = math.min(player.x + (player.speed * dt), love.graphics.getWidth() - player.img:getWidth())
+        player.x = math.min(player.x + (player.speed * dt), 
+          love.graphics.getWidth() - player.img:getWidth())
     end
     
     -- Scroll up the position of the drops
@@ -315,7 +318,8 @@ drop.intervalTimer = drop.intervalTimer - dt
 
 -- Create a drop on space at the boat position if intervalTimer got back to zero
 if love.keyboard.isDown('space') and drop.intervalTimer < 0 then
-    newDrop = { x = player.x + (player.img:getWidth()/2), y = player.y, speed = drop.speed, img = drop.img }
+    newDrop = { x = player.x + (player.img:getWidth()/2), y = player.y, 
+      speed = drop.speed, img = drop.img }
     table.insert(drops, newDrop)
     drop.intervalTimer = drop.interval
 end
@@ -358,7 +362,8 @@ function love.update(dt)
     if love.keyboard.isDown('left','a') then
         player.x = math.max(player.x - (player.speed * dt), 0)
     elseif love.keyboard.isDown('right','d') then
-        player.x = math.min(player.x + (player.speed * dt), love.graphics.getWidth() - player.img:getWidth())
+        player.x = math.min(player.x + (player.speed * dt), 
+          love.graphics.getWidth() - player.img:getWidth())
     end
 
     -- Decrease the drop interval timer before the next drop
@@ -367,7 +372,8 @@ function love.update(dt)
 
     -- Create a drop on space at the boat position
     if love.keyboard.isDown('space') and drop.intervalTimer < 0 then
-        newDrop = { x = player.x + (player.img:getWidth()/2), y = player.y, speed = drop.speed, img = drop.img }
+        newDrop = { x = player.x + (player.img:getWidth()/2), y = player.y, 
+          speed = drop.speed, img = drop.img }
         table.insert(drops, newDrop)
         drop.intervalTimer = drop.interval
     end
@@ -494,7 +500,8 @@ function love.update(dt)
     if love.keyboard.isDown('left','a') then
         player.x = math.max(player.x - (player.speed * dt), 0)
     elseif love.keyboard.isDown('right','d') then
-        player.x = math.min(player.x + (player.speed * dt), love.graphics.getWidth() - player.img:getWidth())
+        player.x = math.min(player.x + (player.speed * dt), 
+          love.graphics.getWidth() - player.img:getWidth())
     end
 
     -- Decrease the drop interval timer before the next drop
@@ -503,7 +510,8 @@ function love.update(dt)
 
     -- Create a drop on space at the boat position
     if love.keyboard.isDown('space') and drop.intervalTimer < 0 then
-        newDrop = { x = player.x + (player.img:getWidth()/2), y = player.y, speed = drop.speed, img = drop.img }
+        newDrop = { x = player.x + (player.img:getWidth()/2), y = player.y, 
+          speed = drop.speed, img = drop.img }
         table.insert(drops, newDrop)
         drop.intervalTimer = drop.interval
     end
@@ -537,7 +545,7 @@ function love.update(dt)
     end
 
 end
-
+
 
 --[[
 Called very often by the love engine
@@ -600,7 +608,8 @@ Since there will be fewer flames on screen than drops we'll loop them first
 --]]
 for i, flame in ipairs(flames) do
     for j, drop in ipairs(drops) do
-        if checkCollision(flame.x, flame.y, flame.img:getWidth(), flame.img:getHeight(), drop.x, drop.y, drop.img:getWidth(), drop.img:getHeight()) then
+        if checkCollision(flame.x, flame.y, flame.img:getWidth(), flame.img:getHeight(), 
+          drop.x, drop.y, drop.img:getWidth(), drop.img:getHeight()) then
             table.remove(drops, j)
             table.remove(flames, i)
         end
@@ -631,8 +640,9 @@ We can use the same `for i, flame in pairs(flames) do` loop in `update()` and th
     for i, flame in ipairs(flames) do
         -- ...
 
-        if checkCollision(flame.x, flame.y, flame.img:getWidth(), flame.img:getHeight(), player.x, player.y, player.img:getWidth(), player.img:getHeight()) 
-        and player.alive then
+        if checkCollision(flame.x, flame.y, flame.img:getWidth(), flame.img:getHeight(), 
+          player.x, player.y, player.img:getWidth(), player.img:getHeight()) 
+          and player.alive then
             table.remove(flames, i)
             player.alive = false
         end
@@ -664,7 +674,8 @@ function love.draw()
     if player.alive then
         -- ...
     else
-        love.graphics.print("Press 'r' to restart", love.graphics:getWidth()/2-50, love.graphics:getHeight()/2-10)
+        love.graphics.print("Press 'r' to restart", 
+          love.graphics:getWidth()/2-50, love.graphics:getHeight()/2-10)
     end
 end
 ~~~
@@ -721,7 +732,8 @@ function love.update(dt)
 	-- ...
 	for i, flame in ipairs(flames) do
 		for j, drop in ipairs(drops) do
-			if checkCollision(flame.x, flame.y, flame.img:getWidth(), flame.img:getHeight(), drop.x, drop.y, drop.img:getWidth(), drop.img:getHeight()) then
+			if checkCollision(flame.x, flame.y, flame.img:getWidth(), flame.img:getHeight(), 
+			  drop.x, drop.y, drop.img:getWidth(), drop.img:getHeight()) then
 				table.remove(drops, j)
 				table.remove(flames, i)
 		        player.points = player.points + 1
@@ -872,8 +884,9 @@ function love.update(dt)
             end
         end
 
-        if checkCollision(flame.x, flame.y, flame.img:getWidth(), flame.img:getHeight(), player.x, player.y, player.img:getWidth(), player.img:getHeight())
-        and player.alive then
+        if checkCollision(flame.x, flame.y, flame.img:getWidth(), flame.img:getHeight(), 
+          player.x, player.y, player.img:getWidth(), player.img:getHeight())
+          and player.alive then
             table.remove(flames, i)
             player.alive = false
         end
@@ -917,7 +930,8 @@ function love.draw()
 
         love.graphics.draw(player.img, player.x, player.y) -- draw it towards at the position (x, y)
     else
-        love.graphics.print("Press 'r' to restart", love.graphics:getWidth()/2-50, love.graphics:getHeight()/2-10)
+        love.graphics.print("Press 'r' to restart", 
+          love.graphics:getWidth()/2-50, love.graphics:getHeight()/2-10)
     end
     love.graphics.setColor(255, 255, 255)
     love.graphics.print("SCORE: " .. tostring(player.points), 320, 10)
@@ -967,8 +981,9 @@ Now that we have the sounds we need to play them at the right point in the game.
 
 ~~~.lua
     -- Add the sound to the section of the love.update(dt) function where a drop and a flame have collided
-        if checkCollision(flame.x, flame.y, flame.img:getWidth(), flame.img:getHeight(), player.x, player.y, player.img:getWidth(), player.img:getHeight())
-        and player.alive then
+        if checkCollision(flame.x, flame.y, flame.img:getWidth(), flame.img:getHeight(),
+          player.x, player.y, player.img:getWidth(), player.img:getHeight())
+          and player.alive then
             table.remove(flames, i)
             player.alive = false
             gameoverSound:play()
@@ -1095,8 +1110,9 @@ function love.update(dt)
             end
         end
 
-        if checkCollision(flame.x, flame.y, flame.img:getWidth(), flame.img:getHeight(), player.x, player.y, player.img:getWidth(), player.img:getHeight())
-        and player.alive then
+        if checkCollision(flame.x, flame.y, flame.img:getWidth(), flame.img:getHeight(), 
+          player.x, player.y, player.img:getWidth(), player.img:getHeight())
+          and player.alive then
             table.remove(flames, i)
             player.alive = false
             gameoverSound:play()
@@ -1141,7 +1157,8 @@ function love.draw()
 
         love.graphics.draw(player.img, player.x, player.y) -- draw it towards at the position (x, y)
     else
-        love.graphics.print("Press 'r' to restart", love.graphics:getWidth()/2-50, love.graphics:getHeight()/2-10)
+        love.graphics.print("Press 'r' to restart", 
+          love.graphics:getWidth()/2-50, love.graphics:getHeight()/2-10)
     end
     love.graphics.setColor(255, 255, 255)
     love.graphics.print("SCORE: " .. tostring(player.points), 320, 10)
