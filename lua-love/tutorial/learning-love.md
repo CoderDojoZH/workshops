@@ -559,11 +559,12 @@ end
 
 ## Extinguishing the fire
 
-The fire is falling down, the drops are flying up... It's time for something to happen: when a drop touches a flame, the fire extinguishes and the water evaporates. In "game" speach we have to do some "collision detection" and remove both the flame and the drop from their respective list.
+The fire is falling down, the drops are flying up... It's time for something to happen: when a drop touches a flame, the fire extinguishes and the water evaporates. In "game" speak we have to do some "collision detection" and remove both the flame and the drop from their respective list.
 
-Right at the top of the file -- just after the definitions for the `player` and `drop` structures we add a "standard" function from the [LÖVE wiki](http://love2d.org/wiki): the `checkCollision()` function will return `true` if the rectange 1 is touching the object 2.
+Somewhere at the top of the program -- perhaps just after the definitions for the `player` and `drop` objects we add a function from the [LÖVE wiki](http://love2d.org/wiki): the `checkCollision()` function will return `true` if the rectange 1 is touching the rectangle 2.
 
 ~~~.lua
+-- Add the following lines towards the top of the program
 --[[
 Collision detection taken function from http://love2d.org/wiki/BoundingBox.lua
 Returns true if two boxes overlap, false if they don't
@@ -584,16 +585,17 @@ The first rectanlge is defined through its top left point (`x1, y1`), its width 
 There is a collision if the rectangles 1 and 2 intersect: that is, 1's left side (`x1`) is left (`<`) of 2's right side (`x2 + w2`) and 1's left side (`x2`) is left (`<`) of 2's right side (`x1 + w1`). And the same applies to the 1 and 2's top and bottom sides.  
 As already mentioned, for the vertical check you should take into consideration that the coordinate origin is top left (and they grow down).
 
-This is called an <a href="glossary#algorithm"></a>algorithm, a list of specific instructions a computer should perform.
+This is called an <a href="glossary#algorithm"></a>algorithm, a set of specific instructions a computer should perform.
 
 ![check collision](images/collision-detection.png)
 
 We can now use the `checkCollision()` function to check if any of the drops moving up is touching one of the flames falling down: if it's the case, we simply remove both of them from their respective lists.
 
 ~~~.lua
+-- Add these lines to the love.update(dt) function
 --[[
 Collision detection
-Since there will be fewer flames on screen than bullets we'll loop them first
+Since there will be fewer flames on screen than drops we'll loop them first
 --]]
 for i, flame in ipairs(flames) do
     for j, drop in ipairs(drops) do
@@ -606,25 +608,24 @@ end
 ~~~
 
 At first sight, it looks like a rather complex process: We loop through all flames (the first `for`) and check if the current flame collides with the any of the drops (the second `for` inside of the first one).  
-When programming, if you want to check if things "are matching", you mostly have to check each of the possibility and cannot use the common sense to quickly check the most likely ones.  But computers are fast at going through lists!
+When programming, if you want to check if things "are matching", you mostly have to check each of the possibility and cannot use the common sense to quickly check the most likely ones.  But computers are fast at going through tables!
 
 ## Getting hit by the fire
 
-Each flame that is not caught by the water, can hit the ship make it sink
+Each flame that is not caught by the water, can hit the ship and make it sink
 
-We first add an `alive` property to the `player` structure:
+We need to track whether the player is alive, so we add an `alive` property to the `player` object:
 ~~~.lua
+-- Change the player line at the op of the program to this:
 player = { x = 175, y = 500, speed = 150, img = nil, alive = true }
 ~~~
 
-TODO: should alive be replaced by burning?
-
-As soon as player.`alive` is set to false, we will know that the game is over.
+As soon as `player.alive` is set to `false`, we will know that the game is over.
 
 We can use the same `for i, flame in pairs(flames) do` loop in `update()` and the existing `checkCollision()` function to check if a flame has hit the boat.
 
 ~~~.lua
-function love.update(dt)
+-- inside the function love.update(dt), add the below lines inide the flame for loop (but not inside the drop loop)
     -- ...
     for i, flame in ipairs(flames) do
         -- ...
@@ -641,6 +642,7 @@ end
 What should happen when the player is not _alive_? The simplest answer is: nothing should happen aynmore. And the simplest way to make _nothing_ happen is to wrap all the content of the `love.draw()` function in a _is alive_ condition:
 
 ~~~.lua
+-- add the if and end statements around the code inside the love.draw function
 function love.draw()
     if player.alive then
         -- ...
@@ -656,20 +658,22 @@ The game is working now! But once you get hit you have to get ouf the game and l
 When the boat is on fire, we want to give the player the change to start a new game. In the `love.draw()` we improve the `if player.alive` condition by showing a message when the player is not alive:
 
 ~~~.lua
+-- add the else condition
 function love.draw()
     if player.alive then
         -- ...
     else
-        love.graphics.print("Press 'R' to restart", love.graphics:getWidth()/2-50, love.graphics:getHeight()/2-10)
+        love.graphics.print("Press 'r' to restart", love.graphics:getWidth()/2-50, love.graphics:getHeight()/2-10)
     end
 end
 ~~~
 
-When the player is not `alive`, the content of the `else` to the condition makes the `Press 'R' to restart` message to be rendered in the middle of the window.
+When the player is not `alive`, the content of the `else` to the condition makes the `Press 'r' to restart` message to be rendered in the middle of the window.
 
 In a similar way as we are doing with the other key presses, we add a check for the `r` key at the end of the `love.update()` function:
 
 ~~~.lua
+-- Add the below lines to the love.update(dt) function
 function love.update(dt)
 	-- ...
 	if not player.alive and love.keyboard.isDown('r') then
@@ -691,25 +695,27 @@ function love.update(dt)
 end
 ~~~
 
-When the player is not _alive_ and the `r` key has been ressed, we reset all the structures to the values they were having at the beginning of the game:
-- we empty the list of drops and flames,
+When the player is not _alive_ and the `r` key has been ressed, we reset all the objects to the values they had at the beginning of the game:
+- we clear the list of drops and flames,
 - we reset the values of the timers ,
 - move the player to the starting point,
-- and set the player as _alive_
+- and set the player to be _alive_
 
-## Keeping the score
+## Keeping score
 
-Finally, you will probably want to know how good you are at the game: for it, we need to keep the score: we will give one point each time a flame gets estinguised by the water.
+Our gamers will probably want to know how good they are at the game: so we need to keep the score. We will give one point each time a flame gets estinguised by a drop.
 
-The first step is to add a `point` field in the `player` structure.
+The first step is to add a `points` field in the `player` object.
 
 ~~~.lua
+-- Add the points to the player object
 player = { x = 175, y = 500, speed = 150, img = nil, points = 0, alive = true }
 ~~~
 
 Increasing the points is pretty simple: each time we detect a collision between a flame and a drop, we increment `player.score` by one.
 
 ~~~.lua
+-- Add the line that increments the score to the collision handling code in the update function
 function love.update(dt)
 	-- ...
 	for i, flame in ipairs(flames) do
@@ -717,19 +723,20 @@ function love.update(dt)
 			if checkCollision(flame.x, flame.y, flame.img:getWidth(), flame.img:getHeight(), drop.x, drop.y, drop.img:getWidth(), drop.img:getHeight()) then
 				table.remove(drops, j)
 				table.remove(flames, i)
-		        player.score = player.score + 1
+		        player.points = player.points + 1
 			end
 		end
 		-- ...
 ~~~
 
-In order to display the current score, we add two lines at the end of the `love.draw()` function:
+In order to display the current score, we add two lines to the `love.draw()` function:
 
 ~~~.lua
+-- add these two lines to the love.draw function (outside the player.alive test)
 function love.draw()
     -- ...
     love.graphics.setColor(255, 255, 255)
-    love.graphics.print("SCORE: " .. tostring(player.score), 400, 10)
+    love.graphics.print("SCORE: " .. tostring(player.points), 320, 10)
 end
 ~~~
 
@@ -740,14 +747,14 @@ Just after that, we add in the top right corner a text saying `SCORE: ` followed
 Finally, we want to reset the score when the game restarts:
 
 ~~~.lua
+-- Add the player.alive  and player.points line to the reset section of the update function
 function love.update(dt)
     -- ...
 	if not player.alive and love.keyboard.isDown('r') then
         -- ...
-
-		-- reset the score
-        score = 0
-
+	-- reset the score
+        player.points = 0
+        --...
         -- reset our game state
         player.alive = true
     end
