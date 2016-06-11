@@ -155,7 +155,8 @@ function love.update(dt)
     if love.keyboard.isDown('left','a') then
         player.x = math.max(player.x - (player.speed * dt), 0)
     elseif love.keyboard.isDown('right','d') then
-        player.x = math.min(player.x + (player.speed * dt), love.graphics.getWidth() - player.img:getWidth())
+        player.x = math.min(player.x + (player.speed * dt), 
+          love.graphics.getWidth() - player.img:getWidth())
     end
 end
 ~~~
