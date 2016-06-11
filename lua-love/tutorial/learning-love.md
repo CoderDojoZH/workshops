@@ -174,7 +174,7 @@ Next we need a global variable drop which gives us the attributes we need to kno
 ...
 player = { x = 175, y = 500, speed = 150, img = nil }
 drop = { speed = 250, img = nil }
-drops = {} -- List of bullets currently being drawn and updated
+drops = {} -- Table of drop currently being drawn and updated
 ...
 ~~~
 
@@ -194,7 +194,7 @@ When this is the case we create a variable `newDrop` which has coordinates taken
 
 ~~~.lua
 -- add inside love.update:
--- Create a bullet on space at the boat position
+-- Create a drop on space at the boat position
 if love.keyboard.isDown('space') then
     newDrop = { x = player.x + (player.img:getWidth()/2), y = player.y, 
       speed = drop.speed, img = drop.img }
@@ -210,7 +210,7 @@ We also want the drop to move upwards until it reaches the top of the window: ea
 for i, drop in ipairs(drops) do
     drop.y = drop.y - (drop.speed * dt)
 
-    if drop.y < 0 then -- Remove bullets when they pass off the screen
+    if drop.y < 0 then -- Remove drops when they pass off the screen
         table.remove(drops, i)
     end
 end
@@ -218,7 +218,7 @@ end
 
 Note that we added a check to see if the drops reach the top of the screen abd then remove them from the `drops` table.
 
-The `ipars(drops)` function gives us each drop and the matching `i` position index in the table. We use the `i` index to remove the drop from the list if it has passed off the screen.
+The `ipars(drops)` function gives us each drop and the matching `i` position index in the table. We use the `i` index to remove the drop from the table if it has passed off the screen.
 
 
 Next we need to enhance the `love.draw()` function to draw the drops on the screen. We loop again through all the `drops` and display each of them at its `drop.x` and `drop.y` coordinate. Add the 3 lines of the for loop to the `love.draw()` function:
@@ -241,7 +241,7 @@ debug = true
 
 player = { x = 175, y = 500, speed = 150, img = nil }
 drop = { speed = 250, img = nil }
-drops = {} -- List of bullets currently being drawn and updated
+drops = {} -- Table of drops currently being drawn and updated
 
 --[[
 Called when the program starts: allows us to load the assets
@@ -262,7 +262,7 @@ function love.update(dt)
         love.event.push('quit')
     end
 
-    -- Create a bullet on space at the boat position
+    -- Create a drop on space at the boat position
     if love.keyboard.isDown('space') then
         newDrop = { x = player.x + (player.img:getWidth()/2), y = player.y, 
           speed = drop.speed, img = drop.img }
@@ -281,7 +281,7 @@ function love.update(dt)
     for i, drop in ipairs(drops) do
         drop.y = drop.y - (drop.speed * dt)
 
-        if drop.y < 0 then -- Remove bullets when they pass off the screen
+        if drop.y < 0 then -- Remove dropss when they pass off the screen
             table.remove(drops, i)
         end
     end
@@ -303,7 +303,7 @@ end
 
 Right now, when you keep on pressing the space bar a big column of water is thrown out. Our next task is to enfoce a small interval between two drops.
 
-We define the interval by extending the `drop` structure with the two fields `interval` and `intervalTimer`. Go to the top of the program and change the `drop` definition:
+We define the interval by extending the `drop` object with the two fields `interval` and `intervalTimer`. Go to the top of the program and change the `drop` definition:
 
 ~~~.lua
 drop = { speed = 250, img = nil, interval = 0.2, intervalTimer = 0 }
@@ -337,7 +337,7 @@ debug = true
 
 player = { x = 175, y = 500, speed = 150, img = nil }
 drop = { speed = 250, img = nil, interval = 0.2, intervalTimer = 0 }
-drops = {} -- List of bullets currently being drawn and updated
+drops = {} -- Table of drops currently being drawn and updated
 
 --[[
 Called when the program starts: allows us to load the assets
@@ -382,7 +382,7 @@ function love.update(dt)
     for i, drop in ipairs(drops) do
         drop.y = drop.y - (drop.speed * dt)
 
-        if drop.y < 0 then -- Remove bullets when they pass off the screen
+        if drop.y < 0 then -- Remove drops when they pass off the screen
             table.remove(drops, i)
         end
     end
@@ -409,7 +409,7 @@ Just like the drops we first need an image of the flames. Go ahead and look for 
 ~~~.lua
 -- Add this at the top of the program where we define the other variables
 flame = { speed = 200, img = nil, interval = 0.4, intervalTimer = 0 }
-flames = {} -- List of flames currently being drawn and updated
+flames = {} -- Table of flames currently being drawn and updated
 ~~~
 
 ~~~.lua
@@ -444,7 +444,7 @@ And we also want to have code in the update function that moves the drops downwa
 for i, flame in ipairs(flames) do
     flame.y = flame.y + (flame.speed * dt)
 
-    if flame.y > love.graphics.getHeight() then -- Remove bullets when they pass off the screen
+    if flame.y > love.graphics.getHeight() then -- Remove dropss when they pass off the screen
         table.remove(flames, i)
     end
 end
@@ -471,9 +471,9 @@ debug = true
 
 player = { x = 175, y = 500, speed = 150, img = nil }
 drop = { speed = 250, img = nil, interval = 0.2, intervalTimer = 0 }
-drops = {} -- List of bullets currently being drawn and updated
+drops = {} -- Table of drops currently being drawn and updated
 flame = { speed = 200, img = nil, interval = 0.4, intervalTimer = 0 }
-flames = {} -- List of flames currently being drawn and updated
+flames = {} -- Table of flames currently being drawn and updated
 
 
 --[[
@@ -520,7 +520,7 @@ function love.update(dt)
     for i, drop in ipairs(drops) do
         drop.y = drop.y - (drop.speed * dt)
 
-        if drop.y < 0 then -- Remove bullets when they pass off the screen
+        if drop.y < 0 then -- Remove dropss when they pass off the screen
             table.remove(drops, i)
         end
     end
@@ -539,7 +539,7 @@ function love.update(dt)
     -- Scroll down the position of the flames
     for i, flame in ipairs(flames) do
         flame.y = flame.y + (flame.speed * dt)
-        if flame.y > love.graphics.getHeight() then -- Remove bullets when they pass off the screen
+        if flame.y > love.graphics.getHeight() then -- Remove dropss when they pass off the screen
             table.remove(flames, i)
         end
     end
@@ -568,7 +568,7 @@ end
 
 ## Extinguishing the fire
 
-The fire is falling down, the drops are flying up... It's time for something to happen: when a drop touches a flame, the fire extinguishes and the water evaporates. In "game" speak we have to do some "collision detection" and remove both the flame and the drop from their respective list.
+The fire is falling down, the drops are flying up... It's time for something to happen: when a drop touches a flame, the fire extinguishes and the water evaporates. In "game" speak we have to do some "collision detection" and remove both the flame and the drop from their respective table.
 
 Somewhere at the top of the program -- perhaps just after the definitions for the `player` and `drop` objects we add a function from the [LÖVE wiki](http://love2d.org/wiki): the `checkCollision()` function will return `true` if the rectange 1 is touching the rectangle 2.
 
@@ -598,7 +598,7 @@ This is called an <a href="glossary#algorithm"></a>algorithm, a set of specific 
 
 ![check collision](images/collision-detection.png)
 
-We can now use the `checkCollision()` function to check if any of the drops moving up is touching one of the flames falling down: if it's the case, we simply remove both of them from their respective lists.
+We can now use the `checkCollision()` function to check if any of the drops moving up is touching one of the flames falling down: if it's the case, we simply remove both of them from their respective tables.
 
 ~~~.lua
 -- Add these lines to the love.update(dt) function
@@ -708,7 +708,7 @@ end
 ~~~
 
 When the player is not _alive_ and the `r` key has been ressed, we reset all the objects to the values they had at the beginning of the game:
-- we clear the list of drops and flames,
+- we clear the table of drops and flames,
 - we reset the values of the timers ,
 - move the player to the starting point,
 - and set the player to be _alive_
@@ -782,9 +782,9 @@ debug = true
 
 player = { x = 175, y = 500, speed = 150, img = nil, points = 0, alive = true }
 drop = { speed = 250, img = nil, interval = 0.2, intervalTimer = 0 }
-drops = {} -- List of bullets currently being drawn and updated
+drops = {} -- Table of drops currently being drawn and updated
 flame = { speed = 200, img = nil, interval = 0.4, intervalTimer = 0 }
-flames = {} -- List of flames currently being drawn and updated
+flames = {} -- Table of flames currently being drawn and updated
 
 
 --[[
@@ -846,7 +846,7 @@ function love.update(dt)
     for i, drop in ipairs(drops) do
         drop.y = drop.y - (drop.speed * dt)
 
-        if drop.y < 0 then -- Remove bullets when they pass off the screen
+        if drop.y < 0 then -- Remove drops when they pass off the screen
             table.remove(drops, i)
         end
     end
@@ -865,7 +865,7 @@ function love.update(dt)
     -- Scroll down the position of the flames
     for i, flame in ipairs(flames) do
         flame.y = flame.y + (flame.speed * dt)
-        if flame.y > love.graphics.getHeight() then -- Remove bullets when they pass off the screen
+        if flame.y > love.graphics.getHeight() then -- Remove drops when they pass off the screen
             table.remove(flames, i)
         end
     end
@@ -999,9 +999,9 @@ debug = true
 
 player = { x = 175, y = 500, speed = 150, img = nil, points = 0, alive = true }
 drop = { speed = 250, img = nil, interval = 0.2, intervalTimer = 0 }
-drops = {} -- List of bullets currently being drawn and updated
+drops = {} -- Table of drops currently being drawn and updated
 flame = { speed = 200, img = nil, interval = 0.4, intervalTimer = 0 }
-flames = {} -- List of flames currently being drawn and updated
+flames = {} -- Table of flames currently being drawn and updated
 
 
 --[[
@@ -1071,7 +1071,7 @@ function love.update(dt)
     for i, drop in ipairs(drops) do
         drop.y = drop.y - (drop.speed * dt)
 
-        if drop.y < 0 then -- Remove bullets when they pass off the screen
+        if drop.y < 0 then -- Remove drops when they pass off the screen
             table.remove(drops, i)
         end
     end
@@ -1090,7 +1090,7 @@ function love.update(dt)
     -- Scroll down the position of the flames
     for i, flame in ipairs(flames) do
         flame.y = flame.y + (flame.speed * dt)
-        if flame.y > love.graphics.getHeight() then -- Remove bullets when they pass off the screen
+        if flame.y > love.graphics.getHeight() then -- Remove drops when they pass off the screen
             table.remove(flames, i)
         end
     end
