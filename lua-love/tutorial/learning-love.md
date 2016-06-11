@@ -386,7 +386,6 @@ function love.update(dt)
             table.remove(drops, i)
         end
     end
-
 end
 
 
@@ -543,9 +542,8 @@ function love.update(dt)
             table.remove(flames, i)
         end
     end
-
 end
-
+
 
 --[[
 Called very often by the love engine
@@ -911,7 +909,6 @@ function love.update(dt)
         -- reset our game state
         player.alive = true
     end
-
 end
 
 
@@ -1138,7 +1135,6 @@ function love.update(dt)
         -- reset our game state
         player.alive = true
     end
-
 end
 
 
