@@ -760,3 +760,216 @@ function love.update(dt)
     end
 end
 ~~~
+
+
+The full game:
+
+~~~.lua
+debug = true
+
+player = { x = 175, y = 500, speed = 150, img = nil, points = 0, alive = true }
+drop = { speed = 250, img = nil, interval = 0.2, intervalTimer = 0 }
+drops = {} -- List of bullets currently being drawn and updated
+flame = { speed = 200, img = nil, interval = 0.4, intervalTimer = 0 }
+flames = {} -- List of flames currently being drawn and updated
+
+
+--[[
+Collision detection taken function from http://love2d.org/wiki/BoundingBox.lua
+Returns true if two boxes overlap, false if they don't
+x1,y1 are the left-top coords of the first box, while w1,h1 are its width and height
+x2,y2,w2 & h2 are the same, but for the second box
+--]]
+function checkCollision(x1,y1,w1,h1, x2,y2,w2,h2)
+    return
+        x1 < x2+w2 and
+        x2 < x1+w1 and
+        y1 < y2+h2 and
+        y2 < y1+h1
+end
+
+
+--[[
+Called when the program starts: allows us to load the assets
+Called exactly once.
+--]]
+function love.load(arg)
+    player.img = love.graphics.newImage('assets/fireboat.png')
+    drop.img = love.graphics.newImage('assets/drop.png')
+    flame.img = love.graphics.newImage('assets/flame.png')
+end
+
+--[[
+Called very often by the love engine
+dt is the amount of time elapsed since the last callback
+--]]
+function love.update(dt)
+    -- Check if the escape key is pressed and quit the game
+    if love.keyboard.isDown('escape') then
+        love.event.push('quit')
+    end
+
+    -- Left arrow and 'a' moves the player to the left, right arrow and 'd' move to the right
+    if love.keyboard.isDown('left','a') then
+        player.x = math.max(player.x - (player.speed * dt), 0)
+    elseif love.keyboard.isDown('right','d') then
+        player.x = math.min(player.x + (player.speed * dt),
+          love.graphics.getWidth() - player.img:getWidth())
+    end
+
+    -- Decrease the drop interval timer before the next drop
+    drop.intervalTimer = drop.intervalTimer - dt
+
+
+    -- Create a drop on space at the boat position
+    if love.keyboard.isDown('space') and drop.intervalTimer < 0 then
+        newDrop = { x = player.x + (player.img:getWidth()/2), y = player.y,
+          speed = drop.speed, img = drop.img }
+        table.insert(drops, newDrop)
+        drop.intervalTimer = drop.interval
+    end
+
+    -- Scroll up the position of the drops
+    for i, drop in ipairs(drops) do
+        drop.y = drop.y - (drop.speed * dt)
+
+        if drop.y < 0 then -- Remove bullets when they pass off the screen
+            table.remove(drops, i)
+        end
+    end
+
+    -- Decrease the drop interval timer before the next drop/flame
+    flame.intervalTimer = flame.intervalTimer - (1 * dt)
+
+    -- Create a flame at the top with a random x position if intervalTimer got back to zero
+    if flame.intervalTimer < 0 then
+        randomX = math.random(10, love.graphics.getWidth() - 10)
+        newFlame = { x = randomX, y = -10, speed = flame.speed, img = flame.img }
+        table.insert(flames, newFlame)
+        flame.intervalTimer = flame.interval
+    end
+
+    -- Scroll down the position of the flames
+    for i, flame in ipairs(flames) do
+        flame.y = flame.y + (flame.speed * dt)
+        if flame.y > love.graphics.getHeight() then -- Remove bullets when they pass off the screen
+            table.remove(flames, i)
+        end
+    end
+
+    --[[
+    Collision detection
+    Since there will be fewer flames on screen than drops we'll loop them first
+    --]]
+    for i, flame in ipairs(flames) do
+        for j, drop in ipairs(drops) do
+            if checkCollision(flame.x, flame.y, flame.img:getWidth(), flame.img:getHeight(),
+              drop.x, drop.y, drop.img:getWidth(), drop.img:getHeight()) then
+                table.remove(drops, j)
+                table.remove(flames, i)
+                player.points = player.points + 1
+            end
+        end
+
+        if checkCollision(flame.x, flame.y, flame.img:getWidth(), flame.img:getHeight(), player.x, player.y, player.img:getWidth(), player.img:getHeight())
+        and player.alive then
+            table.remove(flames, i)
+            player.alive = false
+        end
+    end
+
+    if not player.alive and love.keyboard.isDown('r') then
+        -- remove all drops and flames
+        drops = {}
+        flames = {}
+
+        -- reset timers
+        drop.intervalTimer = 0
+        flame.intervalTimer = 0
+
+        -- move player back to default position
+        player.x = 175
+        player.y = 500
+
+        -- reset the score
+        player.points = 0
+
+        -- reset our game state
+        player.alive = true
+    end
+
+end
+
+
+--[[
+Called very often by the love engine
+--]]
+function love.draw()
+    if player.alive then
+        for i, drop in ipairs(drops) do
+            love.graphics.draw(drop.img, drop.x, drop.y)
+        end
+
+        for i, flame in ipairs(flames) do
+		    love.graphics.draw(flame.img, flame.x, flame.y)
+	    end
+
+        love.graphics.draw(player.img, player.x, player.y) -- draw it towards at the position (x, y)
+    else
+        love.graphics.print("Press 'r' to restart", love.graphics:getWidth()/2-50, love.graphics:getHeight()/2-10)
+    end
+    love.graphics.setColor(255, 255, 255)
+    love.graphics.print("SCORE: " .. tostring(player.points), 320, 10)
+
+end
+~~~
+
+
+## Adding Sound
+
+All games need to have sound. We need a sound for launching a water drop, a sound for extinguishing a flame and a sound for getting hit by fire. The website [https://www.freesound.org] seems to have a huge collection of sounds that you are fee to use. Download the three sounds and save them in the `assets` folder as `launch.wav`, `extinguish.wav` and `gameover.wav`. Pay attention to the copyright of the sounds and images and record where you found the assets in the comments.
+
+~~~.lua
+    -- Add these lines to the love.load(arg) function
+    -- from https://www.freesound.org/people/lollosound/sounds/124915/ CC0
+    launchSound = love.audio.newSource("assets/launch.wav", "static")
+    -- from https://www.freesound.org/people/Sparrer/sounds/50043/ ccbyAttribution
+    extinguishSound = love.audio.newSource("assets/extinguish.wav", "static")
+    -- from https://www.freesound.org/people/Rocotilos/sounds/178876/ CC0
+    gameoverSound = love.audio.newSource("assets/gameover.wav", "static")
+~~~
+
+Now that we have the sounds we need to play them at the right point in the game.
+
+~~~.lua
+    -- Add the sound to the section of the love.update(dt) function where the new drop is created
+    -- Create a drop on space at the boat position
+    if love.keyboard.isDown('space') and drop.intervalTimer < 0 then
+        newDrop = { x = player.x + (player.img:getWidth()/2), y = player.y,
+          speed = drop.speed, img = drop.img }
+        table.insert(drops, newDrop)
+        drop.intervalTimer = drop.interval
+        launchSound:play()
+    end
+~~~
+
+~~~.lua
+    -- Add the sound to the section of the love.update(dt) function where a drop and a flame have collided
+            if checkCollision(flame.x, flame.y, flame.img:getWidth(), flame.img:getHeight(),
+              drop.x, drop.y, drop.img:getWidth(), drop.img:getHeight()) then
+                table.remove(drops, j)
+                table.remove(flames, i)
+                player.points = player.points + 1
+                extinguishSound:play()
+            end
+~~~
+
+~~~.lua
+    -- Add the sound to the section of the love.update(dt) function where a drop and a flame have collided
+        if checkCollision(flame.x, flame.y, flame.img:getWidth(), flame.img:getHeight(), player.x, player.y, player.img:getWidth(), player.img:getHeight())
+        and player.alive then
+            table.remove(flames, i)
+            player.alive = false
+            gameoverSound:play()
+        end
+~~~
