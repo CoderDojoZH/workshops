@@ -425,7 +425,7 @@ Next we need to change the `love.update(dt)` function so that after the interval
 function love.update(dt)
     -- add these lines to the love.update function:
     -- Decrease the drop interval timer before the next drop/flame
-    flame.intervalTimer = flame.intervalTimer - (1 * dt)
+    flame.intervalTimer = flame.intervalTimer - dt
 
     -- Create a flame at the top with a random x position if intervalTimer got back to zero
     if flame.intervalTimer < 0 then
@@ -526,7 +526,7 @@ function love.update(dt)
     end
 
     -- Decrease the drop interval timer before the next drop/flame
-    flame.intervalTimer = flame.intervalTimer - (1 * dt)
+    flame.intervalTimer = flame.intervalTimer - dt
 
     -- Create a flame at the top with a random x position if intervalTimer got back to zero
     if flame.intervalTimer < 0 then
@@ -852,7 +852,7 @@ function love.update(dt)
     end
 
     -- Decrease the drop interval timer before the next drop/flame
-    flame.intervalTimer = flame.intervalTimer - (1 * dt)
+    flame.intervalTimer = flame.intervalTimer - dt
 
     -- Create a flame at the top with a random x position if intervalTimer got back to zero
     if flame.intervalTimer < 0 then
@@ -1077,7 +1077,7 @@ function love.update(dt)
     end
 
     -- Decrease the drop interval timer before the next drop/flame
-    flame.intervalTimer = flame.intervalTimer - (1 * dt)
+    flame.intervalTimer = flame.intervalTimer - dt
 
     -- Create a flame at the top with a random x position if intervalTimer got back to zero
     if flame.intervalTimer < 0 then
