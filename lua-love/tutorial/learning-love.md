@@ -1,10 +1,11 @@
-# Your first game with LÖVE - Fireboat
+# Your first game with LÖVE - The Fireboat
 
 We are now ready to put our hands into LÖVE and create our first game: a Fireboat throwing water at flames falling from the sky.
 
 ## Setup the game and draw the fireboat
 
-For our first game we create a `Fireboat` directory somewhere on your computer (`Documents` is a good place for it but some will prefer to create it on the `Desktop`) . This directory will contain all the files for our game (and nothing else).
+For our first game we create a `Fireboat` directory somewhere on your computer (`Documents` or the `Desktop` are good places for it).  
+In this directory we  will put all the files for our game (and nothing else).
 
 Start the [text editor](glossary#text-editor) and create the `conf.lua` file:
 
@@ -12,7 +13,7 @@ Start the [text editor](glossary#text-editor) and create the `conf.lua` file:
 -- Configuration file that gets read by Löve
 function love.conf(t)
     t.title = "Fireboat Tutorial"
-    t.version = "0.10.1" -- The LÖVE version targetted 
+    t.version = "0.10.1" -- The LÖVE version targetted
     t.window.width = 400
     t.window.height = 600
 
@@ -22,15 +23,19 @@ end
 
 The `conf.lua` file is automatically read by LÖVE. The `love.conf(t)` function we define in `conf.lua` is automatically executed before the game starts.
 
-The main attributes we are setting in the configuration file are the title and the size of the window when the game will be shown. If you have downloaded a newer version of Löve you need to adjust the `t.version` variable to match the downloaded version or Löve will show you a "Compatibility Warning".
+The main attributes we are setting in the configuration file are the title and the size of the window of the game.  
+If the `t.version` variable does not match the version of Löve you downloaded, Löve will show a "Compatibility Warning": you need to adjust it to match your version.
 
 A [complete list of the attributes](http://www.love2d.org/wiki/Config_Files) you can set can be found in the LÖVE wiki.
 
-
 Our next step is to create the image of the fireboat we want to draw. Images for the game belong into a subdirectory of the `Fireboat` directory called `assets`. Go ahead and create that now. Then browse the internet to find a suitable image for the fireboat. Use your favorite image editing tool to shrink it to perhas 150 x 100 pixels and savie it as a `.png` file in our new `assets` directory.
 
+Before we start programming, we need an image for the fireboat.
 
-Now move back to the `Fireboat` and create another file called `main.lua` with the text editor where we will write the game's code.
+All images for the game belong into a subdirectory of the `Fireboat` directory called `assets`. Go ahead and create it now. Then browse the internet to find a suitable image for the fireboat. You need to edit the image in a [drawing tool](glossary#bitmap-editor) like Gimp and shrink it to a width of about 150 pixels. We will save it as a `png` file in our new `assets` directory and name it `fireboat.png`.
+
+
+Now we can start writing the game's code: back to the `Fireboat` directory, we create the file called `main.lua`. Open it with the [text editor](glossary#text-editor) and type this code:
 
 ~~~.lua
 debug = true
@@ -38,15 +43,14 @@ debug = true
 playerImg = nil
 
 --[[
-Called when the program starts: allows us to load the assets
-Called exactly once.
+Called exactly once when the program starts: allows us to load the assets
 --]]
 function love.load(arg)
     playerImg = love.graphics.newImage('assets/fireboat.png')
 end
 
 --[[
-Called very often by the love engine
+Called very often (each frame) by the love engine
 --]]
 function love.draw()
     love.graphics.draw(playerImg, 175, 500) -- Draw it towards the bottom of the window
@@ -56,11 +60,11 @@ end
 In the same way as LÖVE is calling the `love.conf(t)` function we have defined in `conf.lua`, LÖVE will also:
 
 - call `love.load(arg)` once when the program starts.
-- call `love.draw()` very frequently to redraws the window.
+- call `love.draw()` very frequently to redraw the window.
 
-We call these `callback` functions as LÖVE decides when to call them but we get to write what they do.
+We call these `callback` functions as LÖVE decides when to call them but we get to write what they do. (todo: ale wonders what rich means...)
+
 In this very first version our game is loading the `fireboat.png` image and drawing it at the coordinates `175, 500`.
-
 
 Our application is ready to run!
 
@@ -71,14 +75,18 @@ As explained in the Getting started chapters for [Linux](TODO), [Mac OS X](TODO)
 
 ![The window created by LÖVE with the fireboat](images/fireboat-creating-01.png)
 
-You can close the game by clicking on standard close icon of the window.
+You can close the game by clicking on the usual "Close" icon of the window.
 
+TODO: add small screenshots for some Window managers?
+
+The complete source for this first example can be found on [GitHub](TODO).
 
 ## Stearing the Boat
 
 In our game, the Fireboat will move to the left and the right, avoiding the falling fire flames and squrting water drops at them.
 
-The first step is to define a `player` object that will remember all the details about the position of the boat and what it looks like. Modify the `main.lua` file and replace the `playerImg` line with the `player = ` line, change the `love.load` function and the `love.draw` as shown below:
+The first step is to define a `player` object that will keep all the details about the position of the boat and what it looks like.  
+Modify the `main.lua` file and replace the `playerImg` line with the `player = ` line, change the `love.load` function and the `love.draw` as shown below:
 
 ~~~.lua
 debug = true
@@ -94,24 +102,36 @@ function love.load(arg)
 end
 
 --[[
-Called very often by the love engine
+Called very often (each frame) by the love engine
 --]]
 function love.draw()
     love.graphics.draw(player.img, player.x, player.y) -- draw it towards at the position (x, y)
 end
 ~~~
 
-The `fireboat.png` image, the horizontal (`x`) and the vertical (`y`) position are now defined as members inside the `player` object. The `love.load()` function loads `fireboat.png` into the `player.img` member variable. When LÖVE calls `love.draw()` we instruct the computer to draw the fireboat loaded into `player.img` at the at the position defined by `player.x` and `player.y`.
+The `fireboat.png` image, the horizontal (`x`) and the vertical (`y`) position are now defined as members inside the `player` object.
 
-A remark: the coordinates have their origin -- the `(0, 0)` point -- in the top left corner: `(175, 500)` is the distance in pixels from the top left corner of the game area and not the top left corner of the window which has the close buttons etc.
+The `love.load()` function loads `fireboat.png` into the `player.img` member variable.
+When LÖVE calls `love.draw()` the program draws the fireboat loaded into `player.img` at the at the position defined by `player.x` and `player.y`.
+
+A remark: the coordinates have their origin -- the `(0, 0)` point -- in the top left corner: `(175, 500)` is the distance in pixels from the top left corner of the game area and top left corner of the image itself.
 
 ![Coordinates origin is the upper left corner](images/fireboat-coordinates.png)
 
-We are now ready for binding the boat's movements with the keyboard. To do this we need to add the `love.update(dt)` callback function to our `main.lua` file. The function belongs between the `love.load(arg)` callback function and the `love.draw()` callback function. Many games work like this: They load the assets, then they figure out what moves where and then draw all the objects on the screen. The last two steps are repeated very quickly until the game is shut down.
+We are now ready for binding the boat's movements with the keyboard.  
+To do this we need to add the `love.update(dt)` callback function to our `main.lua` file. We write the new function between the `love.load(arg)` callback function and the `love.draw()` callback function.
+
+This is typical for many games:
+
+- They load the assets,
+- then they figure out what has moved
+- and finally draw all the objects on the screen.
+
+The last two steps are repeated very quickly until the game is shut down.
 
 ~~~.lua
 --[[
-Called very often by the love engine
+Called very often (each frame) by the love engine
 dt is the amount of time elapsed since the last callback
 --]]
 function love.update(dt)
@@ -120,7 +140,7 @@ function love.update(dt)
         love.event.push('quit')
     end
 
-    -- Left arrow and 'a' moves the player to the left, right arrow and 'd' move to the right
+    -- Left arrow and 'a' move the player to the left, right arrow and 'd' move to the right
     if love.keyboard.isDown('left','a') then
         player.x = player.x - (player.speed * dt)
     elseif love.keyboard.isDown('right','d') then
@@ -129,16 +149,29 @@ function love.update(dt)
 end
 ~~~
 
-Our `love.update()` callback function first checks if the `ESC` key is pressed and send a `quit` event to the LÖVE engine if that is the case. If the arrow keys or `a` or `d` are pressed the player's `x` position is modified. The next time LÖVE calls `love.draw()` the boat will be drawn in a different location.
+The `love.update()` callback function checks if one of the following five keys have been pressed:
 
-Each movement of the player is calculated by multiplying the `player.speed` member variable field by the "delta-time" (`dt`) variable that LÖVE is giving us as parameter to the `love.update()` function. `dt` is the time elapsed since the last time LÖVE has called `love.update()` and is used to make the game run at the same pace on computers with different speeds. It is a very small number. We have set `player.speed` to the value of 150. This means that in one second we will move the player left or right 150 pixels. Because the computer is calling `love.update()` many hundreds of times in a second we move the player only by the proportional amount of the 150 pixels in each update. To make the boat move faster you need to change the variable so that it moves a greater distance in pixels in a second. That is, modify the value of `player = { .... speed = 150 ...}` to perhaps 250.
+- `Esc`
+- `←` or `a`
+- `→` or `d`
 
+When the `Esc` key is pressed, `update()` sends a `quit` event to the LÖVE engine.  
+The program will quit and the window gets closed.
+
+Pressing the arrow keys or `a` or `d` modifies the `x` position of the player.  
+The next time LÖVE calls `love.draw()` the boat will be drawn in a different location.
+
+Each movement of the player is calculated by multiplying the `player.speed` member variable by the "delta-time" (`dt`) variable that LÖVE is giving us as parameter to the `love.update()` function.
+`dt` is the time elapsed since the last time LÖVE has called `love.update()` and is used to make the game run at the same pace on computers with different speeds.  
+`dt` is a very small number. In our code, `player.speed` is 150: This means that in one second the player will move left or right by 150 pixels. Because the computer is calling `love.update()` many hundreds of times in a second we move the player will move only one small amount of the 150 pixels for each update.
+To make the boat move faster change the `speed` variable so that it moves a greater distance in pixels in a second. As an example, you can try to modify the value of `player = { .... speed = 150 ...}` to a bigger value like 250.
 
 ## A Bug!
 
 After each modification of your code, you should run the game and test if the changes have the expected result. If you have done so, you will have noticed that the boat can "sail" out of the window!
 
-When a movmement key is pressed, we must make sure that the boat cannot go over the border. We can use the `math.max()` function to ensure that the boat's `x` value is never smaller than `0`. Likewise we can use and `math.min()` to prevent the boat leaving the window beyond the window's width on the right side. We must also account width of the boat itself. This is our modified `love.update(dt)` callback function:
+When a movmement key is pressed, we must ensure that the boat cannot go over the border. With the `math.max()` function we ensure that the boat's `x` value is never smaller than `0`. Likewise with `math.min()` we prevent the boat from leaving the window on the right side.
+We must also take into account the width of the boat itself. This is our modified `love.update(dt)` callback function:
 
 ~~~.lua
 --[[
@@ -151,77 +184,88 @@ function love.update(dt)
         love.event.push('quit')
     end
 
-    -- Left arrow and 'a' moves the player to the left, right arrow and 'd' move to the right
+    -- Left arrow and 'a' move the player to the left
+    -- Right arrow and 'd' move to the right
     if love.keyboard.isDown('left','a') then
         player.x = math.max(player.x - (player.speed * dt), 0)
     elseif love.keyboard.isDown('right','d') then
-        player.x = math.min(player.x + (player.speed * dt), 
-          love.graphics.getWidth() - player.img:getWidth())
+        player.x = math.min(player.x + (player.speed * dt),
+            love.graphics.getWidth() - player.img:getWidth())
     end
 end
 ~~~
 
+The complete source for this stage of the game can be found on [GitHub](TODO).
 
 ## Throwing water drops
 
 Now that we are able to stear our boat, we can get to the next task: throw water drops.
 
-First you need an image for drop. You can draw your own or download the one we're using for our sample code: [drop.png](https://raw.githubusercontent.com/CoderDojoZH/workshops/master/lua-love/step-03/assets/drop.png). Save it as a `.png` file in the `assets` directory. It should be small, say 50 x 50 pixels.
+First you need an image for the drops. You can draw your own or download the one we're using for our sample code: [drop.png](https://raw.githubusercontent.com/CoderDojoZH/workshops/master/lua-love/step-03/assets/drop.png).
 
-Next we need a global variable drop which gives us the attributes we need to know about a single drop like the speed and the image. Since we will have many drops on the screen we need a variable which we will use as a `table` to record the many individual drops. You need to add the two lines at the beginning of the program near the definition of the player variable.
+""" mir göhnt go wondere """
+
+Save it as a `.png` file in the `assets` directory. It should be small, say 50 x 50 pixels.
+
+Next we need a global variable `drop` where we can store all the attributes for each drop (the speed and the image).  
+Since we will have many drops on the screen, we need a variable which we will use as a `table` to store the many individual drops. You need to add two lines at the beginning of the program next to the definition of the `player` variable.
 
 ~~~.lua
-...
+-- ...
 player = { x = 175, y = 500, speed = 150, img = nil }
 drop = { speed = 250, img = nil }
-drops = {} -- Table of drop currently being drawn and updated
-...
+drops = {} -- Table of drops to be drawn and updated
+-- ...
 ~~~
 
 We now need to go to the `love.load(arg)` callback function and load the png image into the `drop.img` member variable.
 
 ~~~.lua
-...
+-- ...
 function love.load(arg)
     player.img = love.graphics.newImage('assets/fireboat.png')
     drop.img = love.graphics.newImage('assets/drop.png')
 end
----
+-- ...
 ~~~
 
 How will new drops be created? We want them to shoot up from the middle of the fireboad = player when the gamer presses the space bar. To achieve this we add code to the `love.update()` callback function to detect when the space bar is pressed (`love.keyboard.isDown('space')`).  
 When this is the case we create a variable `newDrop` which has coordinates taken from the `player` variable but the speed and img are taken from the drop object. The newDrop is inserted in the `drops` table.
 
+Add inside `love.update`:
+
 ~~~.lua
--- add inside love.update:
 -- Create a drop on space at the boat position
 if love.keyboard.isDown('space') then
-    newDrop = { x = player.x + (player.img:getWidth()/2), y = player.y, 
+    newDrop = { x = player.x + (player.img:getWidth()/2), y = player.y,
       speed = drop.speed, img = drop.img }
     table.insert(drops, newDrop)
 end
 ~~~
 
-We also want the drop to move upwards until it reaches the top of the window: each time `love.update()` gets called, each drop moves the number of pixels proportional to the dt time interval of the `drop.speed`:
+We also want the drop to move upwards until it reaches the top of the window: each time `love.update()` gets called, each drop moves a number of pixels proportional to the time interval `dt` and the `drop.speed`:
+
+Add inside `love.update`:
 
 ~~~.lua
--- add inside love.update:
 -- Scroll up the position of the drops
 for i, drop in ipairs(drops) do
     drop.y = drop.y - (drop.speed * dt)
 
-    if drop.y < 0 then -- Remove drops when they pass off the screen
+    if drop.y < 0 then -- Remove the drops when they pass off the screen
         table.remove(drops, i)
     end
 end
 ~~~
 
-Note that we added a check to see if the drops reach the top of the screen abd then remove them from the `drops` table.
+A remark: we added a check to see if the drops reach the top of the screen (`if drop.y < 0` ) and remove them from the `drops` table if this is the case.
 
 The `ipars(drops)` function gives us each drop and the matching `i` position index in the table. We use the `i` index to remove the drop from the table if it has passed off the screen.
 
+Next we need to enhance the `love.draw()` function to draw the drops on the screen.  
+We loop again through all the `drops` and display each of them at its `drop.x` and `drop.y` coordinate.
 
-Next we need to enhance the `love.draw()` function to draw the drops on the screen. We loop again through all the `drops` and display each of them at its `drop.x` and `drop.y` coordinate. Add the 3 lines of the for loop to the `love.draw()` function:
+Add the for loop (`for ... do ... end`) to the `love.draw()` function:
 
 ~~~.lua
 function love.draw()
@@ -232,9 +276,13 @@ function love.draw()
 end
 ~~~
 
-A remark: in the `for i, drop  in ipairs(drops)` loop we are defining a local `drop` variable. This variable is not the same variable as the one at the top of the program even though it has the exact same name. This one is a local variable. The disadvantage of using the same name is that we can't access the global variable inside the for loop and that can be confusing. Here it's not a problem since we don't need anything from the global `drop` object (for more information see the short section on ["Scope"](learning-lua#scope) in the ["Learning Lua"](learning-lua) chapter.
+A remark: In the `for i, drop  in ipairs(drops)` loop we are defining a local `drop` variable.  
+This variable is not the same variable as the one at the top of the program even though it has the exact same name. This `drop` is a local variable that is only visible inside of the loop.  
+The disadvantage of using the same name is that we can't access the `drop` global variable inside the for loop and that can be confusing.  
+Here it's not a problem since we don't need anything from the global `drop` object.  
+For more information see the short section on ["Scope"](learning-lua#scope) in the ["Learning Lua"](learning-lua) chapter.
 
-Here is the program as it stands now:
+Here is the complete program as it stands now:
 
 ~~~.lua
 debug = true
@@ -298,21 +346,27 @@ function love.draw()
 end
 ~~~
 
+The full code for this stage is on [Github](https://github.com/CoderDojoZH/workshops/blob/master/lua-love/step-03/).
 
 ## Limiting the water throughput
 
-Right now, when you keep on pressing the space bar a big column of water is thrown out. Our next task is to enfoce a small interval between two drops.
+Right now, when you keep on pressing the space bar a big column of water is thrown out. Our next task is to enforce a small interval between two drops.
 
-We define the interval by extending the `drop` object with the two fields `interval` and `intervalTimer`. Go to the top of the program and change the `drop` definition:
+We define the interval by extending the `drop` object with two fields: `interval` and `intervalTimer`.
+
+Go to the top of the program and change the `drop` definition:
 
 ~~~.lua
 drop = { speed = 250, img = nil, interval = 0.2, intervalTimer = 0 }
 ~~~
 
-Each time we produce a drop, we set `drop.intervalTimer` to the value of `drop.interval` and let the `love.update()` function decrease the `drop.intervalTimer` by the elapsed time received in the `dt` parameter. With the `drop.interval` set to 200ms that means we can shoot a new drop only after this time has passed. We also add a condition to the `if` test so that we can only release a new drop when the `drop.intervalTimer` is smaller than 0 meaning that we have waited for at least 200ms.
+`interval` is the smallest amount of seconds that has to pass between two shots. `0.2` seconds (or 200 milliseconds) is a very short time, but it's enough to avoid that the drops get _glued_ together.
+
+`intervalTimer` counts the time since the last shot. The count is done backwards: each time we produce a drop, we set `drop.intervalTimer` to the value of `drop.interval` and let the `love.update()` function decrease the `drop.intervalTimer` by the elapsed time received in the `dt` parameter. Until it gets down to zero. With the `drop.interval` set to 200ms that means we can shoot a new drop only after this time has passed. We also add a condition to the `if` test so that we can only release a new drop when the `drop.intervalTimer` is smaller than 0 meaning that we have waited for at least 200ms.
+
+Add this to the love.update function and change the if statement with an the extra condition for the timer
 
 ~~~.lua
--- Add this to the love.update function and change the if statement and add the extra line at the end
 -- Decrease the drop interval timer before the next drop
 drop.intervalTimer = drop.intervalTimer - dt
 
@@ -329,6 +383,7 @@ Your game should now look similar to this:
 
 ![Fireboat with drops](images/fireboat-drops.png)
 
+TODO: should we put the full code in some sort of annexe? should we add a chapter called "The code at different stages"? ... in a way that one can use it as "cards"?
 
 Here is what the full program now looks like at this stage:
 
@@ -388,7 +443,6 @@ function love.update(dt)
     end
 end
 
-
 --[[
 Called very often by the love engine
 --]]
@@ -400,29 +454,36 @@ function love.draw()
 end
 ~~~
 
+The full code for this stage is on [Github](https://github.com/CoderDojoZH/workshops/blob/master/lua-love/step-04/).
 
 ## Adding the falling flames
 
 Just like the drops we first need an image of the flames. Go ahead and look for a suitable image in a 50 x 50 pixel size and save it as `.png` file in the `assets` directory. Just like the drop and drops we need a flame object for the details about a flame and a flames table to remember the position of all of our flames.
 
+Add this at the top of the program where we define the other variables
+
 ~~~.lua
--- Add this at the top of the program where we define the other variables
 flame = { speed = 200, img = nil, interval = 0.4, intervalTimer = 0 }
 flames = {} -- Table of flames currently being drawn and updated
 ~~~
 
+The fire drops will fall down with a speed of 200 and there will be a drop every 400 milliseconds.
+
+Add this inside the love.load function add this line
+
 ~~~.lua
 function love.load(arg)
-    -- inside the love.load function add this line
+    -- ...
     flame.img = love.graphics.newImage('assets/flame.png')
 end
 ~~~
 
 Next we need to change the `love.update(dt)` function so that after the interval for the flames a new flame is added to the table of flames at a random position across the top of the screen.
 
+Add these lines to the `love.update` function:
+
 ~~~.lua
 function love.update(dt)
-    -- add these lines to the love.update function:
     -- Decrease the drop interval timer before the next drop/flame
     flame.intervalTimer = flame.intervalTimer - dt
 
@@ -561,17 +622,17 @@ function love.draw()
 end
 ~~~
 
-
-
+The full code for this stage is on [Github](https://github.com/CoderDojoZH/workshops/blob/master/lua-love/step-05/).
 
 ## Extinguishing the fire
 
 The fire is falling down, the drops are flying up... It's time for something to happen: when a drop touches a flame, the fire extinguishes and the water evaporates. In "game" speak we have to do some "collision detection" and remove both the flame and the drop from their respective table.
 
-Somewhere at the top of the program -- perhaps just after the definitions for the `player` and `drop` objects we add a function from the [LÖVE wiki](http://love2d.org/wiki): the `checkCollision()` function will return `true` if the rectange 1 is touching the rectangle 2.
+Somewhere at the top of the program -- just after the definitions for the `player` and `drop` objects we add a function from the [LÖVE wiki](http://love2d.org/wiki): the `checkCollision()` function will return `true` if the rectange 1 is touching the rectangle 2.
+
+Add the following lines towards the top of the program
 
 ~~~.lua
--- Add the following lines towards the top of the program
 --[[
 Collision detection taken function from http://love2d.org/wiki/BoundingBox.lua
 Returns true if two boxes overlap, false if they don't

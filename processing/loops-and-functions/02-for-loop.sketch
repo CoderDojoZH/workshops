@@ -1,0 +1,42 @@
+/**
+ * Alternatively draw concentring white squares and black circles.
+ * Using a for loop.
+ * CC BY-SA  ale rimoldi, coder dojo zurich,
+ * http://creativecommons.org/licenses/
+ */
+void setup()
+{
+    size(500, 500);
+    rectMode(CENTER);
+    background(255); // white
+    stroke(0); // black
+}
+ 
+void draw()
+{
+    int size = 500;
+    int center = size / 2;
+    int color1;
+    int color2;
+
+    if (mousePressed == true) {
+        color1=0;
+        color2=255;
+    }
+    else {
+        color1=255;
+        color2=0;
+    }
+
+	for (int length = 500; length >= 300; length = length -100) {
+        drawSquare(center, length, color1);
+		fill(color2);
+		ellipse(center, center, length, length);
+	}
+}
+
+void drawSquare(int center, int length, int color)
+{
+    fill(color);
+    rect(center, center, length, length);
+}

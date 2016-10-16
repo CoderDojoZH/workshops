@@ -19,6 +19,8 @@ TODO: add screenshosts from the games (multiple per game?) on http://gamedevelop
 
 # What is Löve
 
+You will need Love 0.9 or later.
+
 LÖVE is a framework you can use to make 2D games in Lua.
 
 Lua and LÖVE have a short learning curve and you can start developing immediately.
