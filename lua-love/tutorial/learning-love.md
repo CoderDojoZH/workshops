@@ -234,11 +234,16 @@ When this is the case we create a variable `newDrop` which has coordinates taken
 
 Add inside `love.update`:
 
+![](images/fireboat-drop-x.png)
+
 ~~~.lua
 -- Create a drop on space at the boat position
 if love.keyboard.isDown('space') then
-    newDrop = { x = player.x + (player.img:getWidth()/2), y = player.y,
-      speed = drop.speed, img = drop.img }
+    newDrop = {
+        x = player.x + (player.img:getWidth() /  2) - (drop.img:getWidth() / 2),
+        y = player.y,
+        speed = drop.speed, img = drop.img
+    }
     table.insert(drops, newDrop)
 end
 ~~~
