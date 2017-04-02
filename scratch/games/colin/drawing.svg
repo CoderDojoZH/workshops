@@ -26,11 +26,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.7"
-     inkscape:cx="-549.5414"
-     inkscape:cy="643.7156"
+     inkscape:zoom="0.49497475"
+     inkscape:cx="-441.7679"
+     inkscape:cy="1226.5435"
      inkscape:document-units="px"
-     inkscape:current-layer="svg2"
+     inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:window-width="2238"
      inkscape:window-height="1776"
@@ -70,7 +70,8 @@
      inkscape:groupmode="layer"
      id="layer6"
      inkscape:label="legs"
-     style="display:inline">
+     style="display:inline"
+     sodipodi:insensitive="true">
     <g
        style="display:inline"
        id="g4594">
@@ -595,7 +596,8 @@
      inkscape:groupmode="layer"
      id="layer2"
      inkscape:label="player"
-     style="display:inline">
+     style="display:inline"
+     sodipodi:insensitive="true">
     <path
        sodipodi:nodetypes="ssssssssss"
        inkscape:connector-curvature="0"
@@ -894,7 +896,8 @@
      inkscape:groupmode="layer"
      id="layer4"
      inkscape:label="body"
-     style="display:inline">
+     style="display:inline"
+     sodipodi:insensitive="true">
     <g
        style="display:inline"
        id="g4398">
@@ -1241,6 +1244,18 @@
          style="fill:#9cc0c0;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
          inkscape:connector-curvature="0" />
     </g>
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer7"
+     inkscape:label="lava"
+     style="display:inline">
+    <path
+       style="color:#000000;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:normal;font-family:sans-serif;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;baseline-shift:baseline;text-anchor:start;white-space:normal;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#c75b24;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
+       d="m 1193.6351,-225.06222 c 0,0 -7.033,4.72767 -14.4519,7.62884 -11.5283,5.39274 -21.5462,15.02388 -30.3757,24.60716 -24.1064,26.16436 -38.979,59.57592 -60.1793,88.14589 -32.0727,43.221997 -66.266,85.612462 -101.24539,125.779939 -0.16681,0.191553 -0.393,0.347077 -0.49414,0.580079 -22.33222,51.449952 -18.37616,120.031752 -21.55139,147.895242 -3.17523,27.8635 7.60523,65.37914 1.46135,110.9923 -6.14389,45.61316 -34.53544,114.46237 -40.73173,168.83642 -4.93847,43.3364 5.36458,64.13751 0.89887,130.72348 -4.46572,66.58597 -30.38004,177.19608 -41.25179,266.39148 -7.78183,63.84464 -8.77758,127.48672 -17.13918,192.18869 -4.43574,34.3238 -18.43237,69.3033 -23.29712,104.7363 -7.60271,55.3752 -4.55144,111.7263 -9.05225,167.4395 -3.43891,42.5685 -9.47409,84.8893 -13.70964,127.3859 -4.39475,44.0939 -7.42173,90.7282 -12.14274,132.3814 l 13.80758,1.0715 c 0,0 13.64059,-88.0601 17.0358,-132.4411 3.09172,-40.4141 4.75888,-84.1543 7.55832,-124.5897 4.00638,-57.8684 19.99328,-111.5751 29.32808,-167.4758 6.30789,-37.7744 15.08565,-78.3686 18.02804,-113.4691 5.4025,-64.44755 15.65419,-189.74279 15.65419,-189.74279 0,0 21.0456,-190.01179 28.48777,-254.12884 7.44217,-64.11706 10.69233,-86.84634 15.68136,-130.62665 6.20355,-54.43821 21.58031,-140.73839 24.68209,-167.95749 3.10178,-27.21911 0.74326,-76.90001 3.89894,-104.59215 3.15568,-27.69213 -12.21613,-108.987697 22.14838,-149.367085 0.4899,-0.575613 62.2033,-86.794603 92.7695,-130.569099 20.4567,-29.296546 37.0137,-61.590836 60.6493,-88.388656 8.6274,-9.78162 20.0626,-16.73224 29.2453,-25.99453 2.4058,-2.4267 5.1676,-5.94029 6.7441,-7.72071 0,0 -3.0297,-13.1313 -2.4567,-9.72042 z"
+       id="path4325"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccaasszzszasaaaccssasczszzsaaacc" />
   </g>
   <ellipse
      style="fill:#9cc0c0;fill-opacity:1;stroke:none;stroke-width:4;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"

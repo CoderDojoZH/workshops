@@ -64,3 +64,6 @@
 - Add a `README.md` in each `step-00` directory that tells the chapter it refers to.
 - Add a `LICENSE.md` to the full tutorial.
 - Add an animated gif at the beginning with the full result.
+- digest
+  - http://nova-fusion.com/2011/06/14/a-guide-to-getting-started-with-love2d/
+  - https://love2d-book.github.io/

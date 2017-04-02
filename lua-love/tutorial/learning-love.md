@@ -334,7 +334,7 @@ function love.update(dt)
     for i, drop in ipairs(drops) do
         drop.y = drop.y - (drop.speed * dt)
 
-        if drop.y < 0 then -- Remove dropss when they pass off the screen
+        if drop.y < 0 then -- Remove drops when they pass off the screen
             table.remove(drops, i)
         end
     end
@@ -502,14 +502,14 @@ function love.update(dt)
 end
 ~~~
 
-And we also want to have code in the update function that moves the drops downwards. So add these lines to the `love.update(dt)` function:
+And we also want to have code in the update function that moves the flames downwards. So add these lines to the `love.update(dt)` function:
 
 ~~~.lua
 -- Scroll down the position of the flames
 for i, flame in ipairs(flames) do
     flame.y = flame.y + (flame.speed * dt)
 
-    if flame.y > love.graphics.getHeight() then -- Remove dropss when they pass off the screen
+    if flame.y > love.graphics.getHeight() then -- Remove flames when they pass off the screen
         table.remove(flames, i)
     end
 end
@@ -585,7 +585,7 @@ function love.update(dt)
     for i, drop in ipairs(drops) do
         drop.y = drop.y - (drop.speed * dt)
 
-        if drop.y < 0 then -- Remove dropss when they pass off the screen
+        if drop.y < 0 then -- Remove drops when they pass off the screen
             table.remove(drops, i)
         end
     end
@@ -604,7 +604,7 @@ function love.update(dt)
     -- Scroll down the position of the flames
     for i, flame in ipairs(flames) do
         flame.y = flame.y + (flame.speed * dt)
-        if flame.y > love.graphics.getHeight() then -- Remove dropss when they pass off the screen
+        if flame.y > love.graphics.getHeight() then -- Remove drops when they pass off the screen
             table.remove(flames, i)
         end
     end
