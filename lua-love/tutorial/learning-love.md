@@ -690,7 +690,7 @@ Each flame that is not caught by the water, can hit the ship and make it sink
 
 We need to track whether the player is alive, so we add an `alive` property to the `player` object:
 ~~~.lua
--- Change the player line at the op of the program to this:
+-- Change the player line at the top of the program to this:
 player = { x = 175, y = 500, speed = 150, img = nil, alive = true }
 ~~~
 
