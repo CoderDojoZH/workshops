@@ -59,8 +59,8 @@ end
 
 In the same way as LÖVE is calling the `love.conf(t)` function we have defined in `conf.lua`, LÖVE will also:
 
-- call `love.load(arg)` once when the program starts.
-- call `love.draw()` very frequently to redraw the window.
+- Call `love.load(arg)` once when the program starts.
+- Call `love.draw()` very frequently to redraw the window.
 
 We call these `callback` functions as LÖVE decides when to call them but we get to write what they do. (todo: ale wonders what rich means...)
 
@@ -772,10 +772,10 @@ end
 ~~~
 
 When the player is not _alive_ and the `r` key has been ressed, we reset all the objects to the values they had at the beginning of the game:
-- we clear the table of drops and flames,
-- we reset the values of the timers ,
-- move the player to the starting point,
-- and set the player to be _alive_
+- We clear the table of drops and flames,
+- We reset the values of the timers ,
+- Move the player to the starting point,
+- And set the player to be _alive_
 
 ## Keeping score
 
