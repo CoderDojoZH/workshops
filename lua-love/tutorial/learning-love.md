@@ -28,7 +28,7 @@ If the `t.version` variable does not match the version of Löve you downloaded, 
 
 A [complete list of the attributes](http://www.love2d.org/wiki/Config_Files) you can set can be found in the LÖVE wiki.
 
-Our next step is to create the image of the fireboat we want to draw. Images for the game belong into a subdirectory of the `Fireboat` directory called `assets`. Go ahead and create that now. Then browse the internet to find a suitable image for the fireboat. Use your favorite image editing tool to shrink it to perhas 150 x 100 pixels and savie it as a `.png` file in our new `assets` directory.
+Our next step is to create the image of the fireboat we want to draw. Images for the game belong into a subdirectory of the `Fireboat` directory called `assets`. Go ahead and create that now. Then browse the internet to find a suitable image for the fireboat. Use your favorite image editing tool to shrink it to perhaps 150 x 100 pixels and savie it as a `.png` file in our new `assets` directory.
 
 Before we start programming, we need an image for the fireboat.
 
