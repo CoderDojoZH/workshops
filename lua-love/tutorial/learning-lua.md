@@ -215,4 +215,5 @@ for i = 1, #v do  -- #v is the size of v for lists.
 end
 -- A 'list' is not a real type. v is just a table
 -- with consecutive integer keys, treated as a list.
+table.insert(v, 'newValue')
 ~~~
