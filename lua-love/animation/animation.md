@@ -100,6 +100,8 @@ end
 
 ## Todo
 
+- add the image (runner stick) to the repository and to the readme (https://opengameart.org/content/stick-man-runner)
+- or use a fancier character (https://opengameart.org/content/running-and-jumping-boy-sprite-sheets)
 - Onion skinning in Gimp
   - https://answers.yahoo.com/question/index?qid=20110220000323AAbB379
 - How to make sprites in GIMP 2. Yes.: https://www.youtube.com/watch?v=9Ym4-h2Gfko
