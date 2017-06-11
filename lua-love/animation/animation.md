@@ -1,14 +1,12 @@
 # Animated sprites with Löve
 
-What if you want to animate your sprites? a walking character, an exploding rock, a blooming flower, ...
+What if you want to animate your sprites? A walking character, an exploding rock, a blooming flower, ...
 
 The best way to animate a sprite is by creating a _sprite sheet_: A _sprite sheets_ is a wide image containing a collection of sprites, each of which is a a part of the animation. The sub-images can be rendered by modifying the sprite coordinates, essentially telling it which part of the sheet should be displayed ([Wikipedia](https://en.wikipedia.org/wiki/Texture_atlas)).
 
-## Drawing your own wprite
+## Drawing your own sprite
 
 ### Gimp
-
-- [How to set up GIMP for pixel art](https://www.youtube.com/watch?v=oAaoh49yf5A)
 
 ### Directly drawing a sprite sheet
 
@@ -46,19 +44,26 @@ If you have an animated Gif, you can simply open it with Gimp and each frame of 
 
 ### Opening a stack of images
 
-If you have a Zip file, with an image per frame, you can use the Gimp command `File > Open as layers" to open all the images in one single file.
+If you have a Zip file, with an image per frame, you can use the Gimp command "File > Open as layers" to open all the images in one single file.
 
 If the layers are in the reverse order, you can use the command "Layer > Stack > Reverse Layer Order" to get the correct order.
 
+### Making sure all frames have the same width
+
+When loading a Gif file, you have to make sure that all layers have the same width:
+
+- Run "Image > Fit canvas to Layers" to make sure that no layer overflows.
+- Then "Image > Canvas size", do not change the size, but select the matching "Scale layers" option.
+
 ### Creating the sprite sheet
 
-Once you have all your frames in one file, there is a Gimp script for creating sprite sheets from layers that you can download from [Sprite Sheet](http://registry.gimp.org/node/20943) script:
+Once you have all your frames in one file, there is a Gimp script for creating sprite sheets from layers that you can download from [the Gimp script registry](http://registry.gimp.org):
 
-- Download the script from the [Sprite Sheet script](http://registry.gimp.org/node/20943) registry.
-- Copy to your own Gimp scripts:
+- Download the [Sprite Sheet script](http://registry.gimp.org/node/20943) from the registry.
+- Copy to your own Gimp scripts directory:
   - On Linux it's ~/.gimp-2.8/scripts/.
-- Run `Filters > Script-Fu > Refresh Scripts` to see the new script.
-- Open your animated image.
+- Run `Filters > Script-Fu > Refresh Scripts` to see the update the list of installed script.
+- Open the animated image.
 - Run `Filters > Sprite-Sheet` and you'll get a new image with the all the frames in a row.
 - Export the image to a wide PNG
 
@@ -97,8 +102,5 @@ end
 
 - Onion skinning in Gimp
   - https://answers.yahoo.com/question/index?qid=20110220000323AAbB379
-- Fitting layers to canvas (making sure all layers have the same size)
-  - `Image > Fit canvas to Layers`
-  - `Image > Canvas size`, do not change the size but select the matching "Scale layers" option.
 - How to make sprites in GIMP 2. Yes.: https://www.youtube.com/watch?v=9Ym4-h2Gfko
 - An animation library for LÖVE: https://github.com/kikito/anim8
