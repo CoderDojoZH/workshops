@@ -28,7 +28,7 @@ If the `t.version` variable does not match the version of Löve you downloaded, 
 
 A [complete list of the attributes](http://www.love2d.org/wiki/Config_Files) you can set can be found in the LÖVE wiki.
 
-Our next step is to create the image of the fireboat we want to draw. Images for the game belong into a subdirectory of the `Fireboat` directory called `assets`. Go ahead and create that now. Then browse the internet to find a suitable image for the fireboat. Use your favorite image editing tool to shrink it to perhas 150 x 100 pixels and savie it as a `.png` file in our new `assets` directory.
+Our next step is to create the image of the fireboat we want to draw. Images for the game belong into a subdirectory of the `Fireboat` directory called `assets`. Go ahead and create that now. Then browse the internet to find a suitable image for the fireboat. Use your favorite image editing tool to shrink it to perhaps 150 x 100 pixels and savie it as a `.png` file in our new `assets` directory.
 
 Before we start programming, we need an image for the fireboat.
 
@@ -59,8 +59,8 @@ end
 
 In the same way as LÖVE is calling the `love.conf(t)` function we have defined in `conf.lua`, LÖVE will also:
 
-- call `love.load(arg)` once when the program starts.
-- call `love.draw()` very frequently to redraw the window.
+- Call `love.load(arg)` once when the program starts.
+- Call `love.draw()` very frequently to redraw the window.
 
 We call these `callback` functions as LÖVE decides when to call them but we get to write what they do. (todo: ale wonders what rich means...)
 
@@ -690,7 +690,7 @@ Each flame that is not caught by the water, can hit the ship and make it sink
 
 We need to track whether the player is alive, so we add an `alive` property to the `player` object:
 ~~~.lua
--- Change the player line at the op of the program to this:
+-- Change the player line at the top of the program to this:
 player = { x = 175, y = 500, speed = 150, img = nil, alive = true }
 ~~~
 
@@ -772,10 +772,10 @@ end
 ~~~
 
 When the player is not _alive_ and the `r` key has been ressed, we reset all the objects to the values they had at the beginning of the game:
-- we clear the table of drops and flames,
-- we reset the values of the timers ,
-- move the player to the starting point,
-- and set the player to be _alive_
+- We clear the table of drops and flames,
+- We reset the values of the timers ,
+- Move the player to the starting point,
+- And set the player to be _alive_
 
 ## Keeping score
 
